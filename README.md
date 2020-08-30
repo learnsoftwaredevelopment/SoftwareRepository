@@ -2,12 +2,13 @@
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/learnsoftwaredevelopment/SoftwareRepository/blob/master/LICENSE)
 
-The Backend API Service for **Software Repository** platform. 
+## Introduction
+
+The **Software Repository** REST API Service provides access to various software information such as software description and latest software version. 
+
+This Backend REST API Service is used by **Software Repository** platform.
 
 **Software Repository** aims to be a platform to share and discover softwares. The platform also allows software developers to add their softwares to the platform and share them with the rest of the world. 
-
-## Introduction
-The **Software Repository** REST API provides access to software information such as latest software description and latest software version.
 
 ## Purpose
 There is a lack of a REST API for softwares and this project aims to address this problem by providing a REST API for users to query/submit software information.
@@ -32,5 +33,5 @@ A list of the technologies and frameworks used in this project
 
 ## Recommended Development Tools
 ### API and REST Clients
-- Visual Studio Code's REST client plugin (`.rest` files to test API endpoints can be found in the `request` directory)
+- Visual Studio Code's REST client plugin (`.rest` files to test API endpoints can be found in the `requests` directory)
 - Postman (Alternative)
