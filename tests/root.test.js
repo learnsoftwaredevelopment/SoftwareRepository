@@ -9,6 +9,16 @@ describe("Tests the root endpoint", () => {
       .get("/")
       .expect(200)
       .expect("Content-Type", /text\/html/);
+
     expect(response.text).toBe("<h1>App is running</h1>");
+  });
+
+  test("test non existing url should return status code 404 and json error unknown endpoint", async () => {
+    const response = await root
+      .get("/anunknownendpoint")
+      .expect(404)
+      .expect("Content-Type", /application\/json/);
+
+    expect(response.body.error).toBe("unknown endpoint");
   });
 });

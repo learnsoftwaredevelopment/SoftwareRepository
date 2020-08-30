@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const rootRouter = require("./controllers/root");
+const middleware = require("./utils/middleware");
 
 const app = express();
 
@@ -21,5 +22,8 @@ app.use(
 
 // Routes
 app.use(rootRouter);
+
+app.use(middleware.unknownEndPoint);
+app.use(middleware.errorHandler);
 
 module.exports = app;
