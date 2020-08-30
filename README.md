@@ -29,3 +29,8 @@ A list of the technologies and frameworks used in this project
 
 ### Testing Frameworks used
 - Jest (Javascript Testing Framework)
+
+## Recommended Development Tools
+### API and REST Clients
+- Visual Studio Code's REST client plugin (`.rest` files to test API endpoints can be found in the `request` directory)
+- Postman (Alternative)
