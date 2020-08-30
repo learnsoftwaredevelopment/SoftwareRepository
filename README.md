@@ -1,6 +1,7 @@
 # Software Repository (API Backend)
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/learnsoftwaredevelopment/SoftwareRepository/blob/master/LICENSE)
+![GitHub Actions Build Status](https://github.com/learnsoftwaredevelopment/SoftwareRepository/workflows/.github/workflows/node.js.yml/badge.svg)
 
 ## Introduction
 
