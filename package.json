@@ -1,0 +1,45 @@
+{
+  "name": "softwarerepository",
+  "version": "1.0.0",
+  "description": "A platform to discover softwares",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index.js",
+    "start-dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "test-debug": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/learnsoftwaredevelopment/SoftwareRepository.git"
+  },
+  "keywords": [
+    "software",
+    "repository",
+    "app",
+    "watch",
+    "monitor",
+    "notify",
+    "platform"
+  ],
+  "author": "JonathanLeeWH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/learnsoftwaredevelopment/SoftwareRepository/issues"
+  },
+  "homepage": "https://github.com/learnsoftwaredevelopment/SoftwareRepository#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "jest": "^26.4.2",
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
+  }
+}
