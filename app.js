@@ -1,27 +1,11 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const mongoose = require("mongoose");
-const config = require("./utils/config");
 
 const rootRouter = require("./controllers/root");
 const middleware = require("./utils/middleware");
-const logger = require("./utils/logger");
 
 const app = express();
-
-// To establish connection to database
-mongoose
-  .connect(config.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    logger.info("App successfully connected to MongoDB");
-  })
-  .catch((error) => {
-    logger.error("App encountered an error connecting to MongoDB", error);
-  });
 
 // The custom morgan token
 const morganBodyToken = (req) => {
