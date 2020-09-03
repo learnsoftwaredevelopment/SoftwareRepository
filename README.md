@@ -15,15 +15,6 @@ This Backend REST API Service is used by **Software Repository** platform.
 There is a lack of a REST API for softwares and this project aims to address this problem by providing a REST API for users to query/submit software information.
 
 ## Getting Started
-1) Create a `.env` file in the project root directory.
-
-Sample `.env` file
-```
-PORT=<YOUR_PORT>
-MONGODB_URI=<YOUR_MONGODB_URI>
-TEST_MONGODB_URI=<YOUR_MONGODB_TEST_ENVIRONMENT_URI>
-```
-
 To be Added.
 
 ## Documentation
@@ -34,7 +25,6 @@ A list of the technologies and frameworks used in this project
 
 ### Backend Technologies
 - Node.js
-- MongoDB
 
 ### General Frameworks used
 - Express.js
