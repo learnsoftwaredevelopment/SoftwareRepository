@@ -2,15 +2,54 @@ const mongoose = require("mongoose");
 
 const softwareSchema = new mongoose.Schema(
   {
-    name: { type: String, required: [true, "No software name"] },
-    version: { type: String, default: "0.0.0" },
-    homepage: { type: String, required: [true, "No software homepage url"] },
-    updateUrl: { type: String },
+    name: {
+      type: String,
+      required: [true, "Software name is required"],
+    },
+    version: {
+      type: String,
+      default: "0.0.0",
+    },
+    homepage: {
+      type: String,
+      required: [true, "Software homepage url is required"],
+    },
+    platforms: {
+      type: [String],
+      required: [true, "Software platform is required"],
+    },
+    isActiveDevelopment: {
+      type: Boolean,
+      required: true,
+    },
+    query: {
+      isEnabled: {
+        type: String,
+        default: false,
+      },
+      updateUrl: {
+        type: String,
+        default: null,
+      },
+    },
     meta: {
-      votes: Number,
+      votes: {
+        type: Number,
+        default: 0,
+      },
+      tags: {
+        type: [String],
+        default: [],
+      },
       addedByUser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        required: true,
+      },
+      updatedByUser: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null,
       },
     },
   },

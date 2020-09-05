@@ -1,20 +1,64 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: [true, "Missing username"],
-    minlength: [6, "The username should be at least 6 characters long"],
-    unique: true,
+const userSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: [true, "Missing username"],
+      minlength: [6, "The username should be at least 6 characters long"],
+      unique: true,
+    },
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+    },
+    passwordHash: {
+      type: String,
+      required: [true, "Password hash is required"],
+    },
+    roles: {
+      type: [String],
+      default: ["user"],
+    },
+    contributions: {
+      softwaresAdded: {
+        type: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Software",
+          },
+        ],
+        default: [],
+      },
+      softwaresContributed: {
+        type: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Software",
+          },
+        ],
+        default: [],
+      },
+    },
+    meta: {
+      favourites: {
+        type: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Software",
+          },
+        ],
+        default: [],
+      },
+      lastLogin: {
+        type: Date,
+        default: Date.now,
+      },
+    },
   },
-  name: String,
-  passwordHash: {
-    type: String,
-    required: [true, "Missing password hash"],
-    minlength: [8, "The password should be at least 8 characters long"],
-  },
-});
+  { timestamps: true }
+);
 
 userSchema.plugin(uniqueValidator);
 
