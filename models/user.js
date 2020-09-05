@@ -14,6 +14,37 @@ const userSchema = new mongoose.Schema({
     required: [true, "Missing password hash"],
     minlength: [8, "The password should be at least 8 characters long"],
   },
+  contribution: {
+    softwareAdded: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Software",
+        },
+      ],
+      default: [],
+    },
+    softwareContributed: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Software",
+        },
+      ],
+      default: [],
+    },
+  },
+  meta: {
+    favourites: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Software",
+        },
+      ],
+      default: [],
+    },
+  },
 });
 
 userSchema.plugin(uniqueValidator);
