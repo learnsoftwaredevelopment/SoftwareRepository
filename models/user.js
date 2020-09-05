@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "Missing password hash"],
     minlength: [8, "The password should be at least 8 characters long"],
   },
-  contribution: {
+  contributions: {
     softwareAdded: {
       type: [
         {
