@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     minlength: [8, "The password should be at least 8 characters long"],
   },
   contributions: {
-    softwareAdded: {
+    softwaresAdded: {
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
       ],
       default: [],
     },
-    softwareContributed: {
+    softwaresContributed: {
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
