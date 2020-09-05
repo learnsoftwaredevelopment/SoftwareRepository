@@ -4,7 +4,7 @@ const softwareSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "No software name"],
+      required: [true, "Software name is required"],
     },
     version: {
       type: String,
@@ -12,19 +12,24 @@ const softwareSchema = new mongoose.Schema(
     },
     homepage: {
       type: String,
-      required: [true, "No software homepage url"],
+      required: [true, "Software homepage url is required"],
     },
-    platform: {
-      type: String,
-      required: [true, "Missing platform"],
+    platforms: {
+      type: [String],
+      required: [true, "Software platform is required"],
     },
     isActiveDevelopment: {
       type: Boolean,
       required: true,
     },
     query: {
+      isEnabled: {
+        type: String,
+        default: false,
+      },
       updateUrl: {
         type: String,
+        default: null,
       },
     },
     meta: {
