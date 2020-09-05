@@ -33,7 +33,10 @@ const softwareSchema = new mongoose.Schema(
       },
     },
     meta: {
-      votes: Number,
+      votes: {
+        type: Number,
+        default: 0,
+      },
       tags: {
         type: [String],
         default: [],
@@ -41,10 +44,12 @@ const softwareSchema = new mongoose.Schema(
       addedByUser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        required: true,
       },
       updatedByUser: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        default: null,
       },
     },
   },
