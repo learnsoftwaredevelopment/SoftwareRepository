@@ -312,6 +312,7 @@ describe("Users Controller", () => {
   });
 });
 
-afterAll(() => {
-  mongoose.connection.close();
+afterAll(async () => {
+  await databaseSetupTestUtils.resetDatabase();
+  await mongoose.connection.close();
 });
