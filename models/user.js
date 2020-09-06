@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate: [
         (value) => usernameRegex.test(value),
-        "Please enter a valid username.",
+        "A valid username is required",
       ],
     },
     name: {
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
       required: [true, "An email address is required"],
       unique: true,
       lowercase: true,
-      validate: [isEmail, "A valid email is required"],
+      validate: [isEmail, "A valid email address is required"],
     },
     passwordHash: {
       type: String,
