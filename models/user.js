@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
+const { isEmail } = require("validator");
+
+const usernameRegex = RegExp("^[a-z0-9_.-]+$");
 
 const userSchema = new mongoose.Schema(
   {
@@ -8,10 +11,22 @@ const userSchema = new mongoose.Schema(
       required: [true, "Missing username"],
       minlength: [6, "The username should be at least 6 characters long"],
       unique: true,
+      lowercase: true,
+      validate: [
+        (value) => usernameRegex.test(value),
+        "A valid username is required",
+      ],
     },
     name: {
       type: String,
       required: [true, "Name is required"],
+    },
+    email: {
+      type: String,
+      required: [true, "An email address is required"],
+      unique: true,
+      lowercase: true,
+      validate: [isEmail, "A valid email address is required"],
     },
     passwordHash: {
       type: String,
@@ -67,6 +82,7 @@ userSchema.set("toJSON", {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
+    delete returnedObject.passwordHash;
   },
 });
 

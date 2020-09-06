@@ -1,10 +1,13 @@
 const express = require("express");
+require("express-async-errors");
 const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const config = require("./utils/config");
 
 const rootRouter = require("./controllers/root");
+const usersRouter = require("./controllers/users");
+
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 
@@ -23,6 +26,8 @@ mongoose
     logger.error("App encountered an error connecting to MongoDB", error);
   });
 
+mongoose.set("useCreateIndex", true);
+
 // The custom morgan token
 const morganBodyToken = (req) => {
   return JSON.stringify(req.body);
@@ -38,6 +43,7 @@ app.use(
 
 // Routes
 app.use(rootRouter);
+app.use("/api/users", usersRouter);
 
 app.use(middleware.unknownEndPoint);
 app.use(middleware.errorHandler);

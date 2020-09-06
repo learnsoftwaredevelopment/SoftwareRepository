@@ -9,9 +9,11 @@ const MONGODB_URI =
   NODE_ENVIRONMENT === "test"
     ? process.env.TEST_MONGODB_URI
     : process.env.MONGODB_URI;
+const BCRYPT_SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS);
 
 module.exports = {
   PORT,
   NODE_ENVIRONMENT,
   MONGODB_URI,
+  BCRYPT_SALT_ROUNDS,
 };
