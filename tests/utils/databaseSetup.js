@@ -1,4 +1,5 @@
 const User = require("../../models/user");
+const Software = require("../../models/software");
 
 const sampleUserInDb1 = {
   username: "Sample",
@@ -23,7 +24,7 @@ const addUserToDb = async (userObject) => {
  * Santize user object for expected comparison with user object returned from database.
  * @param {Object} userObject
  */
-const sanitizeUserObject = async (userObject) => {
+const sanitizeUserObject = (userObject) => {
   let expectedUserObject = {
     ...userObject,
   };
@@ -37,9 +38,21 @@ const sanitizeUserObject = async (userObject) => {
   return expectedUserObject;
 };
 
+const resetDatabase = async () => {
+  await User.deleteMany({});
+  await Software.deleteMany({});
+};
+
+const usersInDb = async () => {
+  const users = await User.find({});
+  return users;
+};
+
 module.exports = {
   sampleUserInDb1,
   sampleUserInDb2,
   addUserToDb,
   sanitizeUserObject,
+  resetDatabase,
+  usersInDb,
 };
