@@ -14,15 +14,30 @@ This Backend REST API Service is used by **Software Repository** platform.
 ## Purpose
 There is a lack of a REST API for softwares and this project aims to address this problem by providing a REST API for users to query/submit software information.
 
+It also serves as my personal project to learn web development and testing.
+
+## My Sample code
+
+### Testing
+- The users API endpoint Testing: [users.test.js](https://github.com/learnsoftwaredevelopment/SoftwareRepository/blob/master/tests/api/users/users.test.js)
+
 ## Getting Started
-1) Create a `.env` file in the project root directory.
+1) Create a `.env` file in the project root directory with the structure as shown below.
 
 Sample `.env` file
 ```
 PORT=<YOUR_PORT>
 MONGODB_URI=<YOUR_MONGODB_URI>
 TEST_MONGODB_URI=<YOUR_MONGODB_TEST_ENVIRONMENT_URI>
+BCRYPT_SALT_ROUNDS=<BCRYPT_SALT_ROUNDS>
 ```
+**Note:** Please ensure that you key in all the values for the respective fields in the `.env` files.
+
+2) Install the necessary dependencies using `npm install`.
+
+3) To launch the App in *production* mode, run `npm start` (recommended). For developers, you can run `npm run start-dev` to launch the App in *development* mode.
+
+4) (Optional) To execute the included test cases, run `npm test`.
 
 To be Added.
 
@@ -33,7 +48,7 @@ To be Added.
 A list of the technologies and frameworks used in this project
 
 ### Backend Technologies
-- Node.js
+- Node.js (Node 12)
 - MongoDB
 
 ### General Frameworks used
@@ -41,6 +56,9 @@ A list of the technologies and frameworks used in this project
 
 ### Testing Frameworks used
 - Jest (Javascript Testing Framework)
+
+### Others
+- GitHub Actions for Continuous Integration (CI)
 
 ## Recommended Development Tools
 ### API and REST Clients
