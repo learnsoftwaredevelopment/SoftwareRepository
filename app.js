@@ -26,8 +26,6 @@ mongoose
     logger.error("App encountered an error connecting to MongoDB", error);
   });
 
-console.log(config.MONGODB_URI);
-
 mongoose.set("useCreateIndex", true);
 
 // The custom morgan token
