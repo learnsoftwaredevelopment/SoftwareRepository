@@ -1,5 +1,6 @@
 const app = require("../app");
 const supertest = require("supertest");
+const mongoose = require("mongoose");
 
 const root = supertest(app);
 
@@ -21,4 +22,8 @@ describe("Tests the root endpoint", () => {
 
     expect(response.body.error).toBe("unknown endpoint");
   });
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
 });
