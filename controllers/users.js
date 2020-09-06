@@ -12,11 +12,11 @@ usersRouter.post("/", async (req, res) => {
   const body = req.body;
 
   if (!body.password) {
-    res.status.json({
+    res.status(400).json({
       error: "`password` is required.",
     });
   } else if (body.password.length < 8) {
-    res.status.json({
+    res.status(400).json({
       error: "Password has to be at least 8 characters long.",
     });
   }
@@ -33,7 +33,7 @@ usersRouter.post("/", async (req, res) => {
 
   const savedUser = await user.save();
 
-  res.json(savedUser);
+  res.status(201).json(savedUser);
 });
 
 module.exports = usersRouter;
