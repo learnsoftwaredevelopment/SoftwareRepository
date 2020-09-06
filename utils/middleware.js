@@ -10,6 +10,15 @@ const unknownEndPoint = (req, res) => {
 };
 
 const errorHandler = (error, req, res, next) => {
+  if (error.name === "ValidationError") {
+    console.log(error.properties);
+    let errorObject = {};
+    Object.values(error.errors).forEach(
+      ({ properties }) => (errorObject[properties.path] = properties.message)
+    );
+    return res.status(400).json({ error: errorObject });
+  }
+
   logger.error(error.message);
   next(error);
 };
