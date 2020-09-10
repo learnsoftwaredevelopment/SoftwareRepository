@@ -10,6 +10,7 @@ const usersRouter = require("./controllers/users");
 
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
+const loginRouter = require("./controllers/login");
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use(
 // Routes
 app.use(rootRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
 
 app.use(middleware.unknownEndPoint);
 app.use(middleware.errorHandler);
