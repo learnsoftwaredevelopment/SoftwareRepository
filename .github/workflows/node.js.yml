@@ -39,5 +39,6 @@ jobs:
         PORT: ${{ secrets.PORT }}
         TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
         BCRYPT_SALT_ROUNDS: ${{ secrets.BCRYPT_SALT_ROUNDS }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
 
