@@ -11,6 +11,7 @@ const usersRouter = require("./controllers/users");
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 const loginRouter = require("./controllers/login");
+const softwaresRouter = require("./controllers/softwares");
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use(
 app.use(rootRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
+app.use("/api/softwares", softwaresRouter);
 
 app.use(middleware.unknownEndPoint);
 app.use(middleware.errorHandler);
