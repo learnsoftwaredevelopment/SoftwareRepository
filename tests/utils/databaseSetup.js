@@ -20,6 +20,11 @@ const addUserToDb = async (userObject) => {
   await userToAdd.save();
 };
 
+const addSoftwareToDb = async (softwareObject) => {
+  const softwareToAdd = new Software(softwareObject);
+  await softwareToAdd.save();
+};
+
 /**
  * Santize user object for expected comparison with user object returned from database.
  * @param {Object} userObject
@@ -48,6 +53,11 @@ const usersInDb = async () => {
   return users;
 };
 
+const softwaresInDb = async () => {
+  const softwares = await Software.find({});
+  return softwares;
+};
+
 module.exports = {
   sampleUserInDb1,
   sampleUserInDb2,
@@ -55,4 +65,6 @@ module.exports = {
   sanitizeUserObject,
   resetDatabase,
   usersInDb,
+  softwaresInDb,
+  addSoftwareToDb,
 };
