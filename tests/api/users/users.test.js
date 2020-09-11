@@ -2,6 +2,7 @@ const app = require("../../../app");
 const supertest = require("supertest");
 const mongoose = require("mongoose");
 const databaseSetupTestUtils = require("../../utils/databaseSetup");
+const usersTestUtils = require("../../utils/api/users");
 
 const api = supertest(app);
 
@@ -12,7 +13,7 @@ beforeEach(async () => {
 describe("Users Controller", () => {
   describe("GET request to /api/users/", () => {
     test("When there is no user in database, return status code 200 and json with an empty array of users", async () => {
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
       expect(initialUsersInDb).toHaveLength(0);
 
       const response = await api
@@ -24,10 +25,10 @@ describe("Users Controller", () => {
     });
 
     test("When there is one user in database, return status code 200 and json with only that user in the array", async () => {
-      const userToAdd = databaseSetupTestUtils.sampleUserInDb1;
-      await databaseSetupTestUtils.addUserToDb(userToAdd);
+      const userToAdd = usersTestUtils.sampleUserInDb1;
+      await usersTestUtils.addUserToDb(userToAdd);
 
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
       expect(initialUsersInDb).toHaveLength(1);
 
       const response = await api
@@ -35,19 +36,19 @@ describe("Users Controller", () => {
         .expect(200)
         .expect("Content-Type", /application\/json/);
 
-      const expectedUser = databaseSetupTestUtils.sanitizeUserObject(userToAdd);
+      const expectedUser = usersTestUtils.sanitizeUserObject(userToAdd);
 
       expect(response.body).toHaveLength(1);
       expect(response.body[0]).toMatchObject(expectedUser);
     });
 
     test("When there are two users in database, return status code 200 and json with only those two users in the array", async () => {
-      const user1ToAdd = databaseSetupTestUtils.sampleUserInDb1;
-      const user2ToAdd = databaseSetupTestUtils.sampleUserInDb2;
-      await databaseSetupTestUtils.addUserToDb(user1ToAdd);
-      await databaseSetupTestUtils.addUserToDb(user2ToAdd);
+      const user1ToAdd = usersTestUtils.sampleUserInDb1;
+      const user2ToAdd = usersTestUtils.sampleUserInDb2;
+      await usersTestUtils.addUserToDb(user1ToAdd);
+      await usersTestUtils.addUserToDb(user2ToAdd);
 
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
       expect(initialUsersInDb).toHaveLength(2);
 
       const response = await api
@@ -55,12 +56,8 @@ describe("Users Controller", () => {
         .expect(200)
         .expect("Content-Type", /application\/json/);
 
-      const expectedUser1 = databaseSetupTestUtils.sanitizeUserObject(
-        user1ToAdd
-      );
-      const expectedUser2 = databaseSetupTestUtils.sanitizeUserObject(
-        user2ToAdd
-      );
+      const expectedUser1 = usersTestUtils.sanitizeUserObject(user1ToAdd);
+      const expectedUser2 = usersTestUtils.sanitizeUserObject(user2ToAdd);
 
       expect(response.body).toHaveLength(2);
       expect(response.body[0]).toMatchObject(expectedUser1);
@@ -76,7 +73,7 @@ describe("Users Controller", () => {
         password: "SamplePassword",
       };
 
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
 
       const response = await api
         .post("/api/users/")
@@ -84,7 +81,7 @@ describe("Users Controller", () => {
         .expect(400)
         .expect("Content-Type", /application\/json/);
 
-      const usersInDb = await databaseSetupTestUtils.usersInDb();
+      const usersInDb = await usersTestUtils.usersInDb();
 
       expect(usersInDb).toHaveLength(initialUsersInDb.length);
       expect(response.body.error).toEqual({
@@ -100,7 +97,7 @@ describe("Users Controller", () => {
         password: "SamplePassword",
       };
 
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
 
       const response = await api
         .post("/api/users/")
@@ -108,7 +105,7 @@ describe("Users Controller", () => {
         .expect(400)
         .expect("Content-Type", /application\/json/);
 
-      const usersInDb = await databaseSetupTestUtils.usersInDb();
+      const usersInDb = await usersTestUtils.usersInDb();
 
       expect(usersInDb).toHaveLength(initialUsersInDb.length);
 
@@ -127,7 +124,7 @@ describe("Users Controller", () => {
         password: "SamplePassword",
       };
 
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
 
       const response = await api
         .post("/api/users/")
@@ -135,7 +132,7 @@ describe("Users Controller", () => {
         .expect(400)
         .expect("Content-Type", /application\/json/);
 
-      const usersInDb = await databaseSetupTestUtils.usersInDb();
+      const usersInDb = await usersTestUtils.usersInDb();
 
       expect(usersInDb).toHaveLength(initialUsersInDb.length);
 
@@ -154,7 +151,7 @@ describe("Users Controller", () => {
         password: "SamplePassword",
       };
 
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
 
       const response = await api
         .post("/api/users/")
@@ -162,7 +159,7 @@ describe("Users Controller", () => {
         .expect(400)
         .expect("Content-Type", /application\/json/);
 
-      const usersInDb = await databaseSetupTestUtils.usersInDb();
+      const usersInDb = await usersTestUtils.usersInDb();
 
       expect(usersInDb).toHaveLength(initialUsersInDb.length);
 
@@ -182,11 +179,9 @@ describe("Users Controller", () => {
         password: "SamplePassword2",
       };
 
-      await databaseSetupTestUtils.addUserToDb(
-        databaseSetupTestUtils.sampleUserInDb1
-      );
+      await usersTestUtils.addUserToDb(usersTestUtils.sampleUserInDb1);
 
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
 
       const response = await api
         .post("/api/users/")
@@ -194,7 +189,7 @@ describe("Users Controller", () => {
         .expect(400)
         .expect("Content-Type", /application\/json/);
 
-      const usersInDb = await databaseSetupTestUtils.usersInDb();
+      const usersInDb = await usersTestUtils.usersInDb();
 
       expect(usersInDb).toHaveLength(initialUsersInDb.length);
 
@@ -213,11 +208,9 @@ describe("Users Controller", () => {
         password: "SamplePassword2",
       };
 
-      await databaseSetupTestUtils.addUserToDb(
-        databaseSetupTestUtils.sampleUserInDb1
-      );
+      await usersTestUtils.addUserToDb(usersTestUtils.sampleUserInDb1);
 
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
 
       const response = await api
         .post("/api/users/")
@@ -225,7 +218,7 @@ describe("Users Controller", () => {
         .expect(400)
         .expect("Content-Type", /application\/json/);
 
-      const usersInDb = await databaseSetupTestUtils.usersInDb();
+      const usersInDb = await usersTestUtils.usersInDb();
 
       expect(usersInDb).toHaveLength(initialUsersInDb.length);
 
@@ -243,7 +236,7 @@ describe("Users Controller", () => {
         email: "sample@example.com",
       };
 
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
 
       const response = await api
         .post("/api/users/")
@@ -251,7 +244,7 @@ describe("Users Controller", () => {
         .expect(400)
         .expect("Content-Type", /application\/json/);
 
-      const usersInDb = await databaseSetupTestUtils.usersInDb();
+      const usersInDb = await usersTestUtils.usersInDb();
 
       expect(usersInDb).toHaveLength(initialUsersInDb.length);
       expect(response.body.error).toBe("`password` is required.");
@@ -265,7 +258,7 @@ describe("Users Controller", () => {
         password: "123456",
       };
 
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
 
       const response = await api
         .post("/api/users/")
@@ -273,7 +266,7 @@ describe("Users Controller", () => {
         .expect(400)
         .expect("Content-Type", /application\/json/);
 
-      const usersInDb = await databaseSetupTestUtils.usersInDb();
+      const usersInDb = await usersTestUtils.usersInDb();
 
       expect(usersInDb).toHaveLength(initialUsersInDb.length);
       expect(response.body.error).toBe(
@@ -289,7 +282,7 @@ describe("Users Controller", () => {
         password: "SamplePassword",
       };
 
-      const initialUsersInDb = await databaseSetupTestUtils.usersInDb();
+      const initialUsersInDb = await usersTestUtils.usersInDb();
 
       const response = await api
         .post("/api/users/")
@@ -297,7 +290,7 @@ describe("Users Controller", () => {
         .expect(201)
         .expect("Content-Type", /application\/json/);
 
-      const usersInDb = await databaseSetupTestUtils.usersInDb();
+      const usersInDb = await usersTestUtils.usersInDb();
       expect(usersInDb).toHaveLength(initialUsersInDb.length + 1);
 
       // Lowercase as the username and email fields when are converted to lowercase before inserting into database.

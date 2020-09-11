@@ -1,26 +1,14 @@
 const app = require("../../../app");
 const supertest = require("supertest");
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 const databaseSetupTestUtils = require("../../utils/databaseSetup");
-const config = require("../../../utils/config");
+const { initialiseADefaultUserInDb } = require("../../utils/databaseSetup");
 
 const api = supertest(app);
 
 beforeEach(async () => {
   await databaseSetupTestUtils.resetDatabase();
-
-  const saltRounds = config.BCRYPT_SALT_ROUNDS;
-  const passwordHash = await bcrypt.hash("SamplePassword", saltRounds);
-
-  const userToAdd = {
-    username: "Sample",
-    name: "SampleName",
-    email: "sample@example.com",
-    passwordHash,
-  };
-
-  await databaseSetupTestUtils.addUserToDb(userToAdd);
+  await initialiseADefaultUserInDb();
 });
 
 describe("Login Controller", () => {
