@@ -1,0 +1,11 @@
+POST http://localhost:3001/api/softwares/
+Content-Type: application/json
+
+{
+    "name": "SampleSoftware",
+    "homepage": "http://example.com",
+    "platforms": [
+        "Windows"
+    ],
+    "isActiveDevelopment": true
+}
