@@ -3,6 +3,7 @@ const Software = require("../../models/software");
 const config = require("../../utils/config");
 const bcrypt = require("bcrypt");
 const usersTestUtils = require("./api/usersTestUtils");
+const jwt = require("jsonwebtoken");
 
 const resetDatabase = async () => {
   await User.deleteMany({});
@@ -25,7 +26,24 @@ const initialiseADefaultUserInDb = async () => {
   return defaultUser;
 };
 
+const loginUserToken = (testUser) => {
+  const userForToken = {
+    username: testUser.username,
+    id: testUser._id,
+  };
+
+  const token = jwt.sign(userForToken, config.JWT_SECRET);
+
+  return token;
+};
+
+const formattedToken = (token) => {
+  return `bearer ${token}`;
+};
+
 module.exports = {
   resetDatabase,
   initialiseADefaultUserInDb,
+  loginUserToken,
+  formattedToken,
 };

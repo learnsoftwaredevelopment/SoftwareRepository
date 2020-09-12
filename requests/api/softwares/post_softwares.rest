@@ -1,5 +1,6 @@
 POST http://localhost:3001/api/softwares/
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbXBsZSIsImlkIjoiNWY1NDgyMWYxNTU4MGQ0NTIwNGMyOTJjIiwiaWF0IjoxNTk5ODg2ODkyfQ.SP74DNCySo_ebxeWu6twE37SkUG1wMOho_0GWJD52os
 
 {
     "name": "SampleSoftware",

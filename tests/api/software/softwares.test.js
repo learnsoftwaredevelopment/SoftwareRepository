@@ -7,10 +7,12 @@ const softwareTestUtils = require("../../utils/api/softwaresTestUtils");
 const api = supertest(app);
 
 let defaultUser;
+let token;
 
 beforeEach(async () => {
   await databaseSetupTestUtils.resetDatabase();
   defaultUser = await databaseSetupTestUtils.initialiseADefaultUserInDb();
+  token = databaseSetupTestUtils.loginUserToken(defaultUser);
 });
 
 describe("Software Controller", () => {
@@ -36,8 +38,8 @@ describe("Software Controller", () => {
         defaultUser._id
       );
 
-      const initialSoftwareInDb = await softwareTestUtils.softwaresInDb();
-      expect(initialSoftwareInDb).toHaveLength(1);
+      const initialSoftwaresInDb = await softwareTestUtils.softwaresInDb();
+      expect(initialSoftwaresInDb).toHaveLength(1);
 
       const response = await api
         .get("/api/softwares")
@@ -78,8 +80,8 @@ describe("Software Controller", () => {
         defaultUser._id
       );
 
-      const initialSoftwareInDb = await softwareTestUtils.softwaresInDb();
-      expect(initialSoftwareInDb).toHaveLength(2);
+      const initialSoftwaresInDb = await softwareTestUtils.softwaresInDb();
+      expect(initialSoftwaresInDb).toHaveLength(2);
 
       const response = await api
         .get("/api/softwares")
@@ -119,6 +121,96 @@ describe("Software Controller", () => {
         expectedSoftware1,
         expectedSoftware2,
       ]);
+    });
+  });
+});
+
+describe("Software Controller", () => {
+  describe("POST request to /api/softwares/", () => {
+    test("When missing Authorisation token, return with status 401 with json Missing or Invalid Token error message, no change in the number of softwares in database", async () => {
+      const initialSoftwaresInDb = await softwareTestUtils.softwaresInDb();
+
+      const softwareToAdd = {
+        ...softwareTestUtils.sampleSoftwareInDb1,
+        meta: {
+          addedByUser: {
+            username: defaultUser.username,
+            name: defaultUser.name,
+          },
+          updatedByUser: {
+            username: defaultUser.username,
+            name: defaultUser.name,
+          },
+        },
+      };
+
+      const response = await api
+        .post("/api/softwares")
+        .send(softwareToAdd)
+        .expect(401)
+        .expect("Content-Type", /application\/json/);
+
+      const softwaresInDb = await softwareTestUtils.softwaresInDb();
+      expect(softwaresInDb).toHaveLength(initialSoftwaresInDb.length);
+      expect(response.body.error).toBe("Missing or Invalid Token");
+    });
+
+    test("When invalid Authorisation token, return with status 401 with json Token missing or invalid error message, no change in the number of softwares in database", async () => {
+      const initialSoftwaresInDb = await softwareTestUtils.softwaresInDb();
+
+      const softwareToAdd = {
+        ...softwareTestUtils.sampleSoftwareInDb1,
+        meta: {
+          addedByUser: {
+            username: defaultUser.username,
+            name: defaultUser.name,
+          },
+          updatedByUser: {
+            username: defaultUser.username,
+            name: defaultUser.name,
+          },
+        },
+      };
+
+      const response = await api
+        .post("/api/softwares")
+        .set("Authorization", "bearer invalid token")
+        .send(softwareToAdd)
+        .expect(401)
+        .expect("Content-Type", /application\/json/);
+
+      const softwaresInDb = await softwareTestUtils.softwaresInDb();
+      expect(softwaresInDb).toHaveLength(initialSoftwaresInDb.length);
+      expect(response.body.error).toBe("Invalid Token");
+    });
+
+    test("When request is valid, number of softwares in database increments by 1", async () => {
+      const initialSoftwaresInDb = await softwareTestUtils.softwaresInDb();
+
+      const softwareToAdd = {
+        ...softwareTestUtils.sampleSoftwareInDb1,
+        meta: {
+          addedByUser: {
+            username: defaultUser.username,
+            name: defaultUser.name,
+          },
+          updatedByUser: {
+            username: defaultUser.username,
+            name: defaultUser.name,
+          },
+        },
+      };
+
+      const response = await api
+        .post("/api/softwares")
+        .set("Authorization", databaseSetupTestUtils.formattedToken(token))
+        .send(softwareToAdd)
+        .expect(201)
+        .expect("Content-Type", /application\/json/);
+
+      const softwaresInDb = await softwareTestUtils.softwaresInDb();
+      expect(softwaresInDb).toHaveLength(initialSoftwaresInDb.length + 1);
+      expect(response.body).toMatchObject(softwareToAdd);
     });
   });
 });
