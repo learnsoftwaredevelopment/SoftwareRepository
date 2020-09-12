@@ -1,21 +1,32 @@
 const mongoose = require("mongoose");
+const { default: validator } = require("validator");
 
 const softwareSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      trim: true,
       required: [true, "Software name is required"],
     },
     version: {
       type: String,
+      trim: true,
       default: "0.0.0",
     },
     description: {
       type: String,
-      required: [true, "Software description is required"]
+      trim: true,
+      required: [true, "Software description is required"],
     },
     homepage: {
       type: String,
+      validate: [
+        (value) =>
+          validator.isURL(value, {
+            protocols: ["http", "https"],
+          }),
+        "A valid url is required",
+      ],
       required: [true, "Software homepage url is required"],
     },
     platforms: {
@@ -28,7 +39,7 @@ const softwareSchema = new mongoose.Schema(
     },
     buildOn: {
       type: [String],
-      default: []
+      default: [],
     },
     query: {
       isEnabled: {
