@@ -48,6 +48,8 @@ describe("Software Controller", () => {
 
       const expectedSoftware = {
         ...softwareToAdd,
+        // Since the name is stored in lowercase in the database.
+        name: softwareToAdd.name.toLowerCase(),
         meta: {
           addedByUser: {
             username: defaultUser.username,
@@ -90,6 +92,8 @@ describe("Software Controller", () => {
 
       const expectedSoftware1 = {
         ...softwareToAdd1,
+        // Since the name is stored in lowercase in the database.
+        name: softwareToAdd1.name.toLowerCase(),
         meta: {
           addedByUser: {
             username: defaultUser.username,
@@ -104,6 +108,8 @@ describe("Software Controller", () => {
 
       const expectedSoftware2 = {
         ...softwareToAdd2,
+        // Since the name is stored in lowercase in the database.
+        name: softwareToAdd2.name.toLowerCase(),
         meta: {
           addedByUser: {
             username: defaultUser.username,
@@ -208,9 +214,15 @@ describe("Software Controller", () => {
         .expect(201)
         .expect("Content-Type", /application\/json/);
 
+      const expectedSoftware = {
+        ...softwareToAdd,
+        // Since the name is stored in lowercase in the database.
+        name: softwareToAdd.name.toLowerCase(),
+      };
+
       const softwaresInDb = await softwareTestUtils.softwaresInDb();
       expect(softwaresInDb).toHaveLength(initialSoftwaresInDb.length + 1);
-      expect(response.body).toMatchObject(softwareToAdd);
+      expect(response.body).toMatchObject(expectedSoftware);
     });
   });
 });

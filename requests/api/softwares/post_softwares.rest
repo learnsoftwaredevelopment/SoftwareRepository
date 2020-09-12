@@ -5,7 +5,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhb
 {
     "name": "SampleSoftware",
     "description": "A sample software",
-    "homepage": "http://example.com",
+    "homePage": "http://example.com",
     "platforms": [
         "Windows"
     ],

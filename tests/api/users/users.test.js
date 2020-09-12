@@ -171,7 +171,7 @@ describe("Users Controller", () => {
       expect(response.body.error).toEqual(expectedError);
     });
 
-    test("(Test unique validator) When username ('sample') already exists in database, return json with error Error, expected `username` to be unique. Value: `sample` message", async () => {
+    test("(Test unique validator) When username ('sample') already exists in database, return json with error username must be unique. message", async () => {
       const userToAdd = {
         username: "Sample",
         name: "SampleName2",
@@ -194,13 +194,13 @@ describe("Users Controller", () => {
       expect(usersInDb).toHaveLength(initialUsersInDb.length);
 
       const expectedError = {
-        username: `Error, expected \`username\` to be unique. Value: \`${userToAdd.username.toLowerCase()}\``,
+        username: "username must be unique.",
       };
 
       expect(response.body.error).toEqual(expectedError);
     });
 
-    test("(Test unique validator) When username ('sample@example.com') already exists in database, return json with error Error, expected `email` to be unique. Value: `sample@example.com` message", async () => {
+    test("(Test unique validator) When username ('sample@example.com') already exists in database, return json with error email must be unique. message", async () => {
       const userToAdd = {
         username: "Sample2",
         name: "SampleName2",
@@ -223,7 +223,7 @@ describe("Users Controller", () => {
       expect(usersInDb).toHaveLength(initialUsersInDb.length);
 
       const expectedError = {
-        email: `Error, expected \`email\` to be unique. Value: \`${userToAdd.email.toLowerCase()}\``,
+        email: "email must be unique.",
       };
 
       expect(response.body.error).toEqual(expectedError);
