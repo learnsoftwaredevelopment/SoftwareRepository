@@ -32,7 +32,20 @@ mongoose.set("useCreateIndex", true);
 
 // The custom morgan token
 const morganBodyToken = (req) => {
-  return JSON.stringify(req.body);
+  let customRequestBodyLog = {
+    ...req.body,
+  };
+
+  if (!req.body.password) {
+    return JSON.stringify(customRequestBodyLog);
+  }
+
+  // Hide password in request body log in production environment.
+  if (config.NODE_ENVIRONMENT === "production") {
+    customRequestBodyLog.password = "<hidden>";
+  }
+
+  return JSON.stringify(customRequestBodyLog);
 };
 morgan.token("body", morganBodyToken);
 
