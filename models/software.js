@@ -26,6 +26,10 @@ const softwareSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    buildOn: {
+      type: [String],
+      default: []
+    },
     query: {
       isEnabled: {
         type: String,
