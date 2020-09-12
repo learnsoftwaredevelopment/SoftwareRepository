@@ -1,12 +1,25 @@
 const mongoose = require("mongoose");
 const { default: validator } = require("validator");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const softwareSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       trim: true,
+      lowercase: true,
       required: [true, "Software name is required"],
+      unique: true,
+    },
+    alternativeNames: {
+      type: [
+        {
+          type: String,
+          lowercase: true,
+          trim: true,
+        },
+      ],
+      default: [],
     },
     version: {
       type: String,
@@ -18,7 +31,7 @@ const softwareSchema = new mongoose.Schema(
       trim: true,
       required: [true, "Software description is required"],
     },
-    homepage: {
+    homePage: {
       type: String,
       validate: [
         (value) =>
@@ -74,6 +87,8 @@ const softwareSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+softwareSchema.plugin(uniqueValidator, { message: "{PATH} must be unique." });
 
 softwareSchema.set("toJSON", {
   transform: (document, returnedObject) => {

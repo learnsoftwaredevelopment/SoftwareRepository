@@ -84,7 +84,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.plugin(uniqueValidator);
+userSchema.plugin(uniqueValidator, { message: "{PATH} must be unique." });
 
 userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
