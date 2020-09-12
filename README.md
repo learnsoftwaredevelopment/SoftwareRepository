@@ -30,6 +30,7 @@ PORT=<YOUR_PORT>
 MONGODB_URI=<YOUR_MONGODB_URI>
 TEST_MONGODB_URI=<YOUR_MONGODB_TEST_ENVIRONMENT_URI>
 BCRYPT_SALT_ROUNDS=<BCRYPT_SALT_ROUNDS>
+JWT_SECRET=<YOUR_JWT_SECRET>
 ```
 **Note:** Please ensure that you key in all the values for the respective fields in the `.env` files.
 

@@ -10,10 +10,12 @@ const MONGODB_URI =
     ? process.env.TEST_MONGODB_URI
     : process.env.MONGODB_URI;
 const BCRYPT_SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS);
+const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = {
   PORT,
   NODE_ENVIRONMENT,
   MONGODB_URI,
   BCRYPT_SALT_ROUNDS,
+  JWT_SECRET,
 };
