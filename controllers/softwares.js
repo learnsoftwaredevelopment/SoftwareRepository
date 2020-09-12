@@ -3,16 +3,7 @@ const Software = require("../models/software");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const config = require("../utils/config");
-
-const getTokenFrom = (req) => {
-  const authorization = req.get("Authorization");
-
-  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
-    return authorization.substring(7);
-  }
-
-  return null;
-};
+const middleware = require("../utils/middleware");
 
 softwaresRouter.get("/", async (req, res) => {
   const softwares = await Software.find({})
@@ -27,20 +18,10 @@ softwaresRouter.get("/", async (req, res) => {
   res.status(200).json(softwares);
 });
 
-softwaresRouter.post("/", async (req, res) => {
+softwaresRouter.post("/", middleware.tokenValidation, async (req, res) => {
   const body = req.body;
 
-  const token = getTokenFrom(req);
-  const decodedToken = !token ? null : jwt.verify(token, config.JWT_SECRET);
-
-  // Only registered users can post to softwares API endpoint
-  if (!token || !decodedToken.id) {
-    return res.status(401).json({
-      error: "Missing or Invalid Token",
-    });
-  }
-
-  const user = await User.findById(decodedToken.id);
+  const user = await User.findById(body.decodedToken.id);
 
   // Refer to software Model for required parameters.
   const softwareObject = {
