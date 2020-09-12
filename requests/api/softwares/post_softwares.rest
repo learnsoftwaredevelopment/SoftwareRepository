@@ -3,6 +3,7 @@ Content-Type: application/json
 
 {
     "name": "SampleSoftware",
+    "description": "A sample software",
     "homepage": "http://example.com",
     "platforms": [
         "Windows"

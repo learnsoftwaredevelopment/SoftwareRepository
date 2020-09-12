@@ -2,7 +2,7 @@ const app = require("../../../app");
 const supertest = require("supertest");
 const mongoose = require("mongoose");
 const databaseSetupTestUtils = require("../../utils/databaseSetup");
-const softwareTestUtils = require("../../utils/api/softwares");
+const softwareTestUtils = require("../../utils/api/softwaresTestUtils");
 
 const api = supertest(app);
 
@@ -43,10 +43,6 @@ describe("Software Controller", () => {
         .get("/api/softwares")
         .expect(200)
         .expect("Content-Type", /application\/json/);
-
-      console.log(response.body[0]);
-
-      console.log("defaultUser", defaultUser.toJSON());
 
       const expectedSoftware = {
         ...softwareToAdd,

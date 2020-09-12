@@ -10,6 +10,10 @@ const softwareSchema = new mongoose.Schema(
       type: String,
       default: "0.0.0",
     },
+    description: {
+      type: String,
+      required: [true, "Software description is required"]
+    },
     homepage: {
       type: String,
       required: [true, "Software homepage url is required"],

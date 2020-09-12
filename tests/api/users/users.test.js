@@ -2,7 +2,7 @@ const app = require("../../../app");
 const supertest = require("supertest");
 const mongoose = require("mongoose");
 const databaseSetupTestUtils = require("../../utils/databaseSetup");
-const usersTestUtils = require("../../utils/api/users");
+const usersTestUtils = require("../../utils/api/usersTestUtils");
 
 const api = supertest(app);
 

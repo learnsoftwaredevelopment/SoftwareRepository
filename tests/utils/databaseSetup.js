@@ -2,7 +2,7 @@ const User = require("../../models/user");
 const Software = require("../../models/software");
 const config = require("../../utils/config");
 const bcrypt = require("bcrypt");
-const usersTestUtils = require("./api/users");
+const usersTestUtils = require("./api/usersTestUtils");
 
 const resetDatabase = async () => {
   await User.deleteMany({});

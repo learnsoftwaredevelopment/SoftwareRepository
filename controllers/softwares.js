@@ -20,8 +20,6 @@ softwaresRouter.post("/", async (req, res) => {
 
   const defaultUser = await User.findOne({ username: "Sample" });
 
-  console.log(defaultUser);
-
   // Refer to software Model for required parameters.
   const softwareObject = {
     ...body,
@@ -32,7 +30,6 @@ softwaresRouter.post("/", async (req, res) => {
   };
 
   delete softwareObject.token;
-  console.log(softwareObject);
 
   const softwareAdded = new Software(softwareObject);
 
