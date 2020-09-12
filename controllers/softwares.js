@@ -1,8 +1,6 @@
 const softwaresRouter = require("express").Router();
 const Software = require("../models/software");
 const User = require("../models/user");
-const jwt = require("jsonwebtoken");
-const config = require("../utils/config");
 const middleware = require("../utils/middleware");
 
 softwaresRouter.get("/", async (req, res) => {
