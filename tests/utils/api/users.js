@@ -27,6 +27,7 @@ const addUserToDb = async (userObject) => {
 
 /**
  * Santize user object for expected comparison with user object returned from database.
+ * In other words, passwordHash is removed and the username and email address are lowercase.
  * @param {Object} userObject
  */
 const sanitizeUserObject = (userObject) => {

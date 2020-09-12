@@ -4,16 +4,24 @@ const sampleSoftwareInDb1 = {
   name: "SampleSoftware",
   homepage: "http://example.com",
   platforms: ["Windows"],
+  isActiveDevelopment: true,
 };
 
 const sampleSoftwareInDb2 = {
   name: "SampleSoftware2",
   homepage: "http://apple.com",
   platforms: ["MacOS"],
+  isActiveDevelopment: false,
 };
 
-const addSoftwareToDb = async (softwareObject) => {
-  const softwareToAdd = new Software(softwareObject);
+const addSoftwareToDb = async (softwareObject, addedByUser, updatedByUser) => {
+  const softwareToAdd = new Software({
+    ...softwareObject,
+    meta: {
+      addedByUser,
+      updatedByUser,
+    },
+  });
   await softwareToAdd.save();
 };
 
