@@ -94,7 +94,7 @@ A list of the technologies and frameworks used in this project
 
 ### Others
 - GitHub Actions for Continuous Integration (CI)
-- Docker for containerlisation (Refer to [Instructions to Configure, Build and Run Docker Image Section](#instructions-to-configure-build-and-run-docker-image))
+- Docker for containerisation (Refer to [Instructions to Configure, Build and Run Docker Image Section](#instructions-to-configure-build-and-run-docker-image))
 
 ## Recommended Development Tools
 ### API and REST Clients
