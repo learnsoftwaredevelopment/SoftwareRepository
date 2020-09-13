@@ -74,7 +74,7 @@ EXPOSE 8080
 
 6) After the docker image has been built, run the container using `docker run -p 8080:8080 software_repository:latest`
   
-**Note:** In Step 6, the `PORT` environment value and `EXPOSE` value are assumed to be 8080.
+**Note:** In Step 6, the `PORT` environment value and `EXPOSE` value are assumed to be `8080`.
 
 ## Documentation
 To be Added.
