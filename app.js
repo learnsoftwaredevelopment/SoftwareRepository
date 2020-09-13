@@ -20,6 +20,8 @@ mongoose
   .connect(config.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
   })
   .then(() => {
     logger.info("App successfully connected to MongoDB");
@@ -27,8 +29,6 @@ mongoose
   .catch((error) => {
     logger.error("App encountered an error connecting to MongoDB", error);
   });
-
-mongoose.set("useCreateIndex", true);
 
 // The custom morgan token
 const morganBodyToken = (req) => {
