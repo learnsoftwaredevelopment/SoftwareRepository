@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { default: validator } = require("validator");
+const { isURL } = require("validator");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const softwareSchema = new mongoose.Schema(
@@ -35,7 +35,7 @@ const softwareSchema = new mongoose.Schema(
       type: String,
       validate: [
         (value) =>
-          validator.isURL(value, {
+          isURL(value, {
             protocols: ["http", "https"],
           }),
         "A valid url is required",
@@ -43,7 +43,13 @@ const softwareSchema = new mongoose.Schema(
       required: [true, "Software homepage url is required"],
     },
     platforms: {
-      type: [String],
+      type: [
+        {
+          type: String,
+          trim: true,
+          lowercase: true,
+        },
+      ],
       required: [true, "Software platform is required"],
     },
     isActiveDevelopment: {
@@ -51,17 +57,30 @@ const softwareSchema = new mongoose.Schema(
       required: true,
     },
     buildOn: {
-      type: [String],
+      type: [
+        {
+          type: String,
+          trim: true,
+          lowercase: true,
+        },
+      ],
       default: [],
     },
     query: {
       isEnabled: {
-        type: String,
+        type: Boolean,
         default: false,
       },
       updateUrl: {
         type: String,
-        default: null,
+        validate: [
+          (value) =>
+            isURL(value, {
+              protocols: ["http", "https"],
+            }) || value === "",
+          "A valid url is required",
+        ],
+        default: "",
       },
     },
     meta: {
@@ -70,7 +89,13 @@ const softwareSchema = new mongoose.Schema(
         default: 0,
       },
       tags: {
-        type: [String],
+        type: [
+          {
+            type: String,
+            trim: true,
+            lowercase: true,
+          },
+        ],
         default: [],
       },
       addedByUser: {

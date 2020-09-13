@@ -77,4 +77,17 @@ softwaresRouter.put("/:id", middleware.tokenValidation, async (req, res) => {
   res.status(200).json(updated);
 });
 
+softwaresRouter.get("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  const software = await Software.findById(id);
+
+  const response = await software
+    .populate("meta.addedByUser", { username: 1, name: 1 })
+    .populate("meta.updatedByUser", { username: 1, name: 1 })
+    .execPopulate();
+
+  res.status(200).json(response);
+});
+
 module.exports = softwaresRouter;

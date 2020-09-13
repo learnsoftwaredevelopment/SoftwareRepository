@@ -48,8 +48,11 @@ describe("Software Controller", () => {
 
       const expectedSoftware = {
         ...softwareToAdd,
-        // Since the name is stored in lowercase in the database.
+        // Since the name and platform values are stored in lowercase in the database.
         name: softwareToAdd.name.toLowerCase(),
+        platforms: softwareToAdd.platforms.map((platform) =>
+          platform.toLowerCase()
+        ),
         meta: {
           addedByUser: {
             username: defaultUser.username,
@@ -92,8 +95,11 @@ describe("Software Controller", () => {
 
       const expectedSoftware1 = {
         ...softwareToAdd1,
-        // Since the name is stored in lowercase in the database.
+        // Since the name and platform values are stored in lowercase in the database.
         name: softwareToAdd1.name.toLowerCase(),
+        platforms: softwareToAdd1.platforms.map((platform) =>
+          platform.toLowerCase()
+        ),
         meta: {
           addedByUser: {
             username: defaultUser.username,
@@ -108,8 +114,11 @@ describe("Software Controller", () => {
 
       const expectedSoftware2 = {
         ...softwareToAdd2,
-        // Since the name is stored in lowercase in the database.
+        // Since the name and platform values are stored in lowercase in the database.
         name: softwareToAdd2.name.toLowerCase(),
+        platforms: softwareToAdd2.platforms.map((platform) =>
+          platform.toLowerCase()
+        ),
         meta: {
           addedByUser: {
             username: defaultUser.username,
@@ -216,8 +225,11 @@ describe("Software Controller", () => {
 
       const expectedSoftware = {
         ...softwareToAdd,
-        // Since the name is stored in lowercase in the database.
+        // Since the name and platform values are stored in lowercase in the database.
         name: softwareToAdd.name.toLowerCase(),
+        platforms: softwareToAdd.platforms.map((platform) =>
+          platform.toLowerCase()
+        ),
       };
 
       const softwaresInDb = await softwareTestUtils.softwaresInDb();
