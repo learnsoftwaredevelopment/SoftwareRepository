@@ -55,6 +55,7 @@ softwaresRouter.put("/:id", middleware.tokenValidation, async (req, res) => {
   const id = req.params.id;
   const body = req.body;
 
+  // To configure dotObject transformation to not modify how the array is represented.
   dotObject.keepArray = true;
 
   let newSoftware = {
@@ -63,6 +64,8 @@ softwaresRouter.put("/:id", middleware.tokenValidation, async (req, res) => {
 
   newSoftware.meta.updatedByUser = body.decodedToken.id;
 
+  // Transform object to dot notaton (dotted key and value pairs)
+  // This serves as a workaround for mongoose update of nested objects
   newSoftware = dotObject.dot(newSoftware);
 
   const updatedSoftware = await Software.findByIdAndUpdate(id, newSoftware, {
