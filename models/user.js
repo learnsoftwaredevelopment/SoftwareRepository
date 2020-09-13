@@ -40,6 +40,7 @@ const userSchema = new mongoose.Schema(
       type: [
         {
           type: String,
+          lowercase: true,
           trim: true,
         },
       ],
