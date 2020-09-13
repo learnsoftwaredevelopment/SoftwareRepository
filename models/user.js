@@ -46,6 +46,24 @@ const userSchema = new mongoose.Schema(
       ],
       default: ["user"],
     },
+    developerOf: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Software",
+        },
+      ],
+      default: [],
+    },
+    maintainerOf: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Software",
+        },
+      ],
+      default: [],
+    },
     contributions: {
       softwaresAdded: {
         type: [
