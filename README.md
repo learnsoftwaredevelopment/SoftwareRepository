@@ -64,7 +64,7 @@ ENV JWT_SECRET=YOUR_JWT_SECRET
 EXPOSE 8080
 ```
 
-**NOTE:** Please ensure the values for `PORT` and `EXPOSE` are the same. An example: `ENV PORT=8080` and `EXPOSE 8080`.
+**Note:** Please ensure the values for `PORT` and `EXPOSE` are the same. An example: `ENV PORT=8080` and `EXPOSE 8080`.
 
 3) Save the changes made to `Dockerfile`.
 
