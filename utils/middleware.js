@@ -56,6 +56,10 @@ const errorHandler = (error, req, res, next) => {
     return res.status(401).json({
       error: "Invalid Token",
     });
+  } else if (error.name === "CastError") {
+    return res.status(400).json({
+      error: "Malformatted id",
+    });
   }
 
   logger.error(error.message);

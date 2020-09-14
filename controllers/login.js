@@ -7,7 +7,14 @@ const config = require("../utils/config");
 loginRouter.post("/", async (req, res) => {
   const body = req.body;
 
-  const user = await User.findOne({ username: body.username });
+  // Return the user before update so can view last login.
+  const user = await User.findOneAndUpdate(
+    { username: body.username },
+    {
+      "meta.lastLogin": Date.now(),
+    }
+  );
+
   const passwordCorrect =
     user === null
       ? false
@@ -30,6 +37,7 @@ loginRouter.post("/", async (req, res) => {
     token,
     username: user.username,
     name: user.name,
+    lastLogin: user.meta.lastLogin,
   });
 });
 

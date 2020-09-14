@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbXBsZSIsImlkIjoiNWY1Y2Q0N2EzZTg5MGUxOGU0ZWQ4NzY4IiwiaWF0IjoxNTk5OTE5Mjg5fQ.78Koj6nNYXI9ko-82NdAZi7G-nALgiNSs97iEHRn3HY
 
 {
-    "name": "SampleSoftware",
+    "name": "SampleSoftware8",
     "description": "A sample software",
     "homePage": "http://example.com",
     "platforms": [

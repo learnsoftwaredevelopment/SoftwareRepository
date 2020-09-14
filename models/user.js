@@ -40,10 +40,29 @@ const userSchema = new mongoose.Schema(
       type: [
         {
           type: String,
+          lowercase: true,
           trim: true,
         },
       ],
       default: ["user"],
+    },
+    developerOf: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Software",
+        },
+      ],
+      default: [],
+    },
+    maintainerOf: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Software",
+        },
+      ],
+      default: [],
     },
     contributions: {
       softwaresAdded: {
