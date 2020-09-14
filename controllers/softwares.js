@@ -1,6 +1,5 @@
 const softwaresRouter = require("express").Router();
 const Software = require("../models/software");
-const User = require("../models/user");
 const middleware = require("../utils/middleware");
 const dotObject = require("dot-object");
 
@@ -20,14 +19,12 @@ softwaresRouter.get("/", async (req, res) => {
 softwaresRouter.post("/", middleware.tokenValidation, async (req, res) => {
   const body = req.body;
 
-  const user = await User.findById(body.decodedToken.id);
-
   // Refer to software Model for required parameters.
   const softwareObject = {
     ...body,
     meta: {
-      addedByUser: user._id,
-      updatedByUser: user._id,
+      addedByUser: body.decodedToken.id,
+      updatedByUser: body.decodedToken.id,
     },
   };
 
@@ -72,6 +69,10 @@ softwaresRouter.put("/:id", middleware.tokenValidation, async (req, res) => {
     new: true,
   });
 
+  if (updatedSoftware === null) {
+    return res.status(404).end();
+  }
+
   const updated = await updatedSoftware
     .populate("meta.addedByUser", { username: 1, name: 1 })
     .populate("meta.updatedByUser", { username: 1, name: 1 })
@@ -91,6 +92,18 @@ softwaresRouter.get("/:id", async (req, res) => {
     .execPopulate();
 
   res.status(200).json(response);
+});
+
+softwaresRouter.delete("/:id", middleware.tokenValidation, async (req, res) => {
+  const id = req.params.id;
+
+  const response = await Software.findByIdAndDelete(id);
+
+  if (response === null) {
+    return res.status(404).end();
+  }
+
+  res.status(204).end();
 });
 
 module.exports = softwaresRouter;
