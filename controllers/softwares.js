@@ -2,6 +2,7 @@ const softwaresRouter = require("express").Router();
 const Software = require("../models/software");
 const middleware = require("../utils/middleware");
 const dotObject = require("dot-object");
+const User = require("../models/user");
 
 softwaresRouter.get("/", async (req, res) => {
   const softwares = await Software.find({})
@@ -18,13 +19,14 @@ softwaresRouter.get("/", async (req, res) => {
 
 softwaresRouter.post("/", middleware.tokenValidation, async (req, res) => {
   const body = req.body;
+  const userId = body.decodedToken.id;
 
   // Refer to software Model for required parameters.
   const softwareObject = {
     ...body,
     meta: {
-      addedByUser: body.decodedToken.id,
-      updatedByUser: body.decodedToken.id,
+      addedByUser: userId,
+      updatedByUser: userId,
     },
   };
 
@@ -33,6 +35,17 @@ softwaresRouter.post("/", middleware.tokenValidation, async (req, res) => {
   const softwareAdded = new Software(softwareObject);
 
   const savedSoftware = await softwareAdded.save();
+
+  const user = await User.findById(userId);
+
+  user.contributions.softwaresAdded = user.contributions.softwaresAdded.concat(
+    savedSoftware._id
+  );
+  user.contributions.softwaresContributed = user.contributions.softwaresContributed.concat(
+    savedSoftware._id
+  );
+
+  await user.save();
 
   const saved = await savedSoftware
     .populate("meta.addedByUser", {
