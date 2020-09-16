@@ -66,6 +66,24 @@ const softwareSchema = new mongoose.Schema(
       ],
       default: [],
     },
+    developedBy: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+      default: [],
+    },
+    maintainedBy: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+      default: [],
+    },
     query: {
       isEnabled: {
         type: Boolean,
