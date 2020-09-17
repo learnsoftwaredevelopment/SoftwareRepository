@@ -4,7 +4,13 @@ const User = require("../models/user");
 const config = require("../utils/config");
 
 usersRouter.get("/", async (req, res) => {
-  const users = await User.find({});
+  const users = await User.find({})
+    .populate("contributions.softwaresAdded", {
+      name: 1,
+    })
+    .populate("contributions.softwaresContributed", {
+      name: 1,
+    });
   res.json(users);
 });
 
