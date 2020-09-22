@@ -49,6 +49,9 @@ JWT_SECRET=<YOUR_JWT_SECRET>
 To be Added.
 
 ## Instructions to Configure, Build and Run Docker Image
+
+**Prerequisite:** The host operating system has [Docker](https://www.docker.com/) already installed.
+
 1) Clone the **Software Repository**'s GitHub Repository.
 
 2) Open the `Dockerfile` and edit the environmental variables (`ENV`) and port in which container is listening to at runtime (`EXPOSE`) with your desired values.
@@ -68,13 +71,29 @@ EXPOSE 8080
 
 3) Save the changes made to `Dockerfile`.
 
-4) Open your favourite terminal/command prompt in the **SoftwareRepository**'s working directory.
+4) Open your favourite terminal/command prompt in the **Software Repository**'s working directory.
 
 5) Build the docker image using `docker build -t software_repository:latest .`
 
 6) After the docker image has been built, run the container using `docker run -p 8080:8080 software_repository:latest`
   
 **Note:** In Step 6, the `PORT` environment value and `EXPOSE` value are assumed to be `8080`.
+
+## Instructions to run the multi container setup using Docker Compose
+
+Services included in the multi container setup in `docker-compose.yml`:
+  - Software Repository App
+  - MongoDB (database)
+  - Mongo Express (Web based MongoDB Admin Interface for database management)
+
+**Prerequisite:** The `DockerFile` has been configured. If not, please follow the instructions in [Instructions to Configure, Build and Run Docker Image](#instructions-to-configure-build-and-run-docker-image).
+
+1) In the **Software Repository**'s working directory, run the multi container setup using `docker-compose up --build` or `docker-compose up -d --build` (detached mode).
+
+2) To access the **Software Repository** App, go to [https://localhost:8080](https://localhost:8080).
+**Note:** Assuming `PORT` environmental variable is not changed in Step 2 of [ Instructions to Configure, Build and Run Docker Image](#instructions-to-configure-build-and-run-docker-image).
+
+3) (Optional) To access the Mongo Express interface, go to [https://localhost:8081](https://localhost:8081).
 
 ## Documentation
 To be Added.
@@ -94,7 +113,7 @@ A list of the technologies and frameworks used in this project
 
 ### Others
 - GitHub Actions for Continuous Integration (CI)
-- Docker for containerisation (Refer to [Instructions to Configure, Build and Run Docker Image Section](#instructions-to-configure-build-and-run-docker-image))
+- Docker for containerisation (Refer to [Instructions to Configure, Build and Run Docker Image Section](#instructions-to-configure-build-and-run-docker-image) or [Instructions to run the multi container setup using Docker Compose](#instructions-to-run-the-multi-container-setup-using-docker-compose))
 
 ## Recommended Development Tools
 ### API and REST Clients
