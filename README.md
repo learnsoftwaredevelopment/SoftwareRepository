@@ -86,7 +86,7 @@ Services included in the multi container setup in `docker-compose.yml`:
   - MongoDB (database)
   - Mongo Express (Web based MongoDB Admin Interface for database management)
 
-**Prerequisite:** The `DockerFile` has been configured. If not, please follow the instructions in [Instructions to Configure, Build and Run Docker Image](#instructions-to-configure-build-and-run-docker-image).
+**Prerequisite:** The `Dockerfile` has been configured. If not, please follow the instructions in [Instructions to Configure, Build and Run Docker Image](#instructions-to-configure-build-and-run-docker-image).
 
 1) In the **Software Repository**'s working directory, run the multi container setup using `docker-compose up --build` or `docker-compose up -d --build` (detached mode).
 
