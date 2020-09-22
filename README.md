@@ -91,6 +91,7 @@ Services included in the multi container setup in `docker-compose.yml`:
 1) In the **Software Repository**'s working directory, run the multi container setup using `docker-compose up --build` or `docker-compose up -d --build` (detached mode).
 
 2) To access the **Software Repository** App, go to [https://localhost:8080](https://localhost:8080).
+
 **Note:** Assuming `PORT` environmental variable is not changed in Step 2 of [ Instructions to Configure, Build and Run Docker Image](#instructions-to-configure-build-and-run-docker-image).
 
 3) (Optional) To access the Mongo Express interface, go to [https://localhost:8081](https://localhost:8081).
