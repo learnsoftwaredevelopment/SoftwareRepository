@@ -20,7 +20,7 @@ COPY . .
 
 # The container environmental variables.
 ENV PORT=8080
-ENV MONGODB_URI=YOUR_MONGODB_URI
+ENV MONGODB_URI=mongodb://root:password@mongo:27017/softwareRepository?authSource=admin
 ENV BCRYPT_SALT_ROUNDS=YOUR_BCRYPT_SALT_ROUNDS
 ENV JWT_SECRET=YOUR_JWT_SECRET
 
