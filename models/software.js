@@ -96,7 +96,18 @@ const softwareSchema = new mongoose.Schema(
             isURL(value, {
               protocols: ["http", "https"],
             }) || value === "",
-          "A valid url is required",
+          "A valid update url is required",
+        ],
+        default: "",
+      },
+      downloadUrl: {
+        type: String,
+        validate: [
+          (value) =>
+            isURL(value, {
+              protocols: ["http", "https", "ftp"],
+            }) || value === "",
+          "A valid download url is required",
         ],
         default: "",
       },
