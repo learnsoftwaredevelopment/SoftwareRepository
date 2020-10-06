@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "eslint": "^7.9.0",
-    "jest": "^26.4.2",
+    "jest": "^26.5.0",
     "nodemon": "^2.0.4",
     "supertest": "^4.0.2"
   },
