@@ -18,8 +18,8 @@ jobs:
       # Pull the latest image to build, and avoid caching pull-only images.
       # (docker pull is faster than caching in most cases.)
       - name: docker-compose pull
-      - run: docker-compose pull
-      - name: Docker Layer Caching
+        run: docker-compose pull
+      - name: docker layer caching
         uses: satackey/action-docker-layer-caching@v0.0.8
       - name: Test
         run: docker-compose up --exit-code-from app
