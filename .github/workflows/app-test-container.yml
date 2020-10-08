@@ -1,0 +1,25 @@
+name: App Container CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      # Pull the latest image to build, and avoid caching pull-only images.
+      # (docker pull is faster than caching in most cases.)
+      - name: docker-compose pull
+        run: docker-compose pull
+      - name: docker layer caching
+        uses: satackey/action-docker-layer-caching@v0.0.8
+      - name: Test
+        run: docker-compose --file docker-compose-test.yml up --build --exit-code-from app
