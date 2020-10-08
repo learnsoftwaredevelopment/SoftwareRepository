@@ -6,7 +6,7 @@ build/
 
 .*
 *.md
-tests*
+# tests*
 docker-compose.yml
 
 

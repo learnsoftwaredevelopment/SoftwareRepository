@@ -25,6 +25,7 @@ services:
     build: .
     ports:
       - 8080:8080
+    command: "npm test"
 
 volumes:
   db-data:

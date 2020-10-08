@@ -22,6 +22,7 @@ COPY . .
 ENV PORT=8080
 ENV MONGODB_URI=mongodb://root:password@mongo:27017/softwareRepository?authSource=admin
 ENV BCRYPT_SALT_ROUNDS=YOUR_BCRYPT_SALT_ROUNDS
+ENV TEST_MONGODB_URI=mongodb://root:password@mongo:27017/softwareRepositoryTest?authSource=admin
 ENV JWT_SECRET=YOUR_JWT_SECRET
 
 # The container listens on port 8080.
