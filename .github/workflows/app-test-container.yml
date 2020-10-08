@@ -22,4 +22,4 @@ jobs:
       - name: docker layer caching
         uses: satackey/action-docker-layer-caching@v0.0.8
       - name: Test
-        run: docker-compose up --build --exit-code-from app
+        run: docker-compose --file docker-compose-test.yml up --build --exit-code-from app
