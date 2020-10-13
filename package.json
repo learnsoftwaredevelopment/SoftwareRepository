@@ -45,8 +45,8 @@
     "validator": "^13.1.17"
   },
   "devDependencies": {
+    "jest": "^26.5.3",
     "eslint": "^7.11.0",
-    "jest": "^26.5.2",
     "nodemon": "^2.0.4",
     "supertest": "^5.0.0"
   },
