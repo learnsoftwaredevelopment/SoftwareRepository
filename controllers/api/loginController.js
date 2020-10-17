@@ -1,10 +1,9 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const loginRouter = require("express").Router();
-const User = require("../models/user");
-const config = require("../utils/config");
+const User = require("../../models/user");
+const config = require("../../utils/config");
 
-loginRouter.post("/", async (req, res) => {
+const postLogin = async (req, res) => {
   const body = req.body;
 
   // Return the user before update so can view last login.
@@ -39,6 +38,8 @@ loginRouter.post("/", async (req, res) => {
     name: user.name,
     lastLogin: user.meta.lastLogin,
   });
-});
+};
 
-module.exports = loginRouter;
+module.exports = {
+  postLogin,
+};
