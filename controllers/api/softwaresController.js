@@ -1,11 +1,9 @@
-const softwaresRouter = require("express").Router();
-const Software = require("../models/software");
-const middleware = require("../utils/middleware");
+const Software = require("../../models/software");
 const dotObject = require("dot-object");
-const User = require("../models/user");
-const databaseUtils = require("../utils/databaseUtils");
+const User = require("../../models/user");
+const databaseUtils = require("../../utils/databaseUtils");
 
-softwaresRouter.get("/", async (req, res) => {
+const getSoftwares = async (req, res) => {
   const softwares = await Software.find({})
     .populate("meta.addedByUser", {
       username: 1,
@@ -16,9 +14,9 @@ softwaresRouter.get("/", async (req, res) => {
       name: 1,
     });
   res.status(200).json(softwares);
-});
+};
 
-softwaresRouter.post("/", middleware.tokenValidation, async (req, res) => {
+const postSoftwares = async (req, res) => {
   const body = req.body;
   const userId = body.decodedToken.id;
 
@@ -60,9 +58,9 @@ softwaresRouter.post("/", middleware.tokenValidation, async (req, res) => {
     .execPopulate();
 
   res.status(201).json(saved);
-});
+};
 
-softwaresRouter.put("/:id", middleware.tokenValidation, async (req, res) => {
+const putSoftware = async (req, res) => {
   const id = req.params.id;
   const body = req.body;
   const userId = body.decodedToken.id;
@@ -103,9 +101,9 @@ softwaresRouter.put("/:id", middleware.tokenValidation, async (req, res) => {
     .execPopulate();
 
   res.status(200).json(updated);
-});
+};
 
-softwaresRouter.get("/:id", async (req, res) => {
+const getSoftware = async (req, res) => {
   const id = req.params.id;
 
   const software = await Software.findById(id);
@@ -116,9 +114,9 @@ softwaresRouter.get("/:id", async (req, res) => {
     .execPopulate();
 
   res.status(200).json(response);
-});
+};
 
-softwaresRouter.delete("/:id", middleware.tokenValidation, async (req, res) => {
+const deleteSoftware = async (req, res) => {
   const id = req.params.id;
 
   const response = await Software.findByIdAndDelete(id);
@@ -131,6 +129,12 @@ softwaresRouter.delete("/:id", middleware.tokenValidation, async (req, res) => {
   databaseUtils.cleanUpSoftwareReferences(id);
 
   res.status(204).end();
-});
+};
 
-module.exports = softwaresRouter;
+module.exports = {
+  getSoftwares,
+  postSoftwares,
+  putSoftware,
+  getSoftware,
+  deleteSoftware,
+};
