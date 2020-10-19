@@ -21,5 +21,6 @@ jobs:
         run: docker-compose pull
       - name: docker layer caching
         uses: satackey/action-docker-layer-caching@v0.0.8
+        continue-on-error: true
       - name: Run test in container
         run: docker-compose --file docker-compose-test-ci.yml up --build --exit-code-from app

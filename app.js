@@ -5,13 +5,13 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const config = require("./utils/config");
 
-const rootRouter = require("./controllers/root");
-const usersRouter = require("./controllers/users");
+const rootRouter = require("./routes/root");
+const usersRouter = require("./routes/api/users");
 
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
-const loginRouter = require("./controllers/login");
-const softwaresRouter = require("./controllers/softwares");
+const loginRouter = require("./routes/api/login");
+const softwaresRouter = require("./routes/api/softwares");
 
 const app = express();
 

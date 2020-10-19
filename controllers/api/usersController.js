@@ -1,9 +1,8 @@
 const bcrypt = require("bcrypt");
-const usersRouter = require("express").Router();
-const User = require("../models/user");
-const config = require("../utils/config");
+const User = require("../../models/user");
+const config = require("../../utils/config");
 
-usersRouter.get("/", async (req, res) => {
+const getUsers = async (req, res) => {
   const users = await User.find({})
     .populate("contributions.softwaresAdded", {
       name: 1,
@@ -12,9 +11,9 @@ usersRouter.get("/", async (req, res) => {
       name: 1,
     });
   res.json(users);
-});
+};
 
-usersRouter.post("/", async (req, res) => {
+const postUsers = async (req, res) => {
   const body = req.body;
 
   if (!body.password) {
@@ -40,6 +39,9 @@ usersRouter.post("/", async (req, res) => {
   const savedUser = await user.save();
 
   res.status(201).json(savedUser);
-});
+};
 
-module.exports = usersRouter;
+module.exports = {
+  getUsers,
+  postUsers,
+};
