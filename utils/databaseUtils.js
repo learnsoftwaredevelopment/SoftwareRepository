@@ -1,5 +1,5 @@
-const Software = require("../models/software");
-const User = require("../models/user");
+const Software = require('../models/software');
+const User = require('../models/user');
 
 /**
  * To clean up values in fields of all documents which reference to the input software id
@@ -11,20 +11,20 @@ const cleanUpSoftwareReferences = async (softwareId) => {
       $or: [
         { developerOf: softwareId },
         { maintainerOf: softwareId },
-        { "contributions.softwaresAdded": softwareId },
-        { "contributions.softwaresContributed": softwareId },
-        { "meta.favourites": softwareId },
+        { 'contributions.softwaresAdded': softwareId },
+        { 'contributions.softwaresContributed': softwareId },
+        { 'meta.favourites': softwareId },
       ],
     },
     {
       $pull: {
         developerOf: softwareId,
         maintainerOf: softwareId,
-        "contributions.softwaresAdded": softwareId,
-        "contributions.softwaresContributed": softwareId,
-        "meta.favourites": softwareId,
+        'contributions.softwaresAdded': softwareId,
+        'contributions.softwaresContributed': softwareId,
+        'meta.favourites': softwareId,
       },
-    }
+    },
   );
 };
 
@@ -38,8 +38,8 @@ const cleanUpUserReferences = async (userId) => {
       $or: [
         { developedBy: userId },
         { maintainedBy: userId },
-        { "meta.addedByUser": userId },
-        { "meta.updatedByUser": userId },
+        { 'meta.addedByUser': userId },
+        { 'meta.updatedByUser': userId },
       ],
     },
     {
@@ -47,9 +47,9 @@ const cleanUpUserReferences = async (userId) => {
         developedBy: userId,
         maintainedBy: userId,
       },
-      "meta.addedByUser": null,
-      "meta.updatedByUser": null,
-    }
+      'meta.addedByUser': null,
+      'meta.updatedByUser': null,
+    },
   );
 };
 

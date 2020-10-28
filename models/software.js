@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const { isURL } = require("validator");
-const uniqueValidator = require("mongoose-unique-validator");
+const mongoose = require('mongoose');
+const { isURL } = require('validator');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const softwareSchema = new mongoose.Schema(
   {
@@ -8,7 +8,7 @@ const softwareSchema = new mongoose.Schema(
       type: String,
       trim: true,
       lowercase: true,
-      required: [true, "Software name is required"],
+      required: [true, 'Software name is required'],
       unique: true,
     },
     alternativeNames: {
@@ -24,23 +24,22 @@ const softwareSchema = new mongoose.Schema(
     version: {
       type: String,
       trim: true,
-      default: "0.0.0",
+      default: '0.0.0',
     },
     description: {
       type: String,
       trim: true,
-      required: [true, "Software description is required"],
+      required: [true, 'Software description is required'],
     },
     homePage: {
       type: String,
       validate: [
-        (value) =>
-          isURL(value, {
-            protocols: ["http", "https"],
-          }),
-        "A valid url is required",
+        (value) => isURL(value, {
+          protocols: ['http', 'https'],
+        }),
+        'A valid url is required',
       ],
-      required: [true, "Software homepage url is required"],
+      required: [true, 'Software homepage url is required'],
     },
     platforms: {
       type: [
@@ -50,7 +49,7 @@ const softwareSchema = new mongoose.Schema(
           lowercase: true,
         },
       ],
-      required: [true, "Software platform is required"],
+      required: [true, 'Software platform is required'],
     },
     isActiveDevelopment: {
       type: Boolean,
@@ -70,7 +69,7 @@ const softwareSchema = new mongoose.Schema(
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
+          ref: 'User',
         },
       ],
       default: [],
@@ -79,7 +78,7 @@ const softwareSchema = new mongoose.Schema(
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
+          ref: 'User',
         },
       ],
       default: [],
@@ -92,24 +91,22 @@ const softwareSchema = new mongoose.Schema(
       updateUrl: {
         type: String,
         validate: [
-          (value) =>
-            isURL(value, {
-              protocols: ["http", "https"],
-            }) || value === "",
-          "A valid update url is required",
+          (value) => isURL(value, {
+            protocols: ['http', 'https'],
+          }) || value === '',
+          'A valid update url is required',
         ],
-        default: "",
+        default: '',
       },
       downloadUrl: {
         type: String,
         validate: [
-          (value) =>
-            isURL(value, {
-              protocols: ["http", "https", "ftp"],
-            }) || value === "",
-          "A valid download url is required",
+          (value) => isURL(value, {
+            protocols: ['http', 'https', 'ftp'],
+          }) || value === '',
+          'A valid download url is required',
         ],
-        default: "",
+        default: '',
       },
     },
     meta: {
@@ -129,22 +126,22 @@ const softwareSchema = new mongoose.Schema(
       },
       addedByUser: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
         required: true,
       },
       updatedByUser: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
         default: null,
       },
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-softwareSchema.plugin(uniqueValidator, { message: "{PATH} must be unique." });
+softwareSchema.plugin(uniqueValidator, { message: '{PATH} must be unique.' });
 
-softwareSchema.set("toJSON", {
+softwareSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -152,4 +149,4 @@ softwareSchema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Software", softwareSchema);
+module.exports = mongoose.model('Software', softwareSchema);

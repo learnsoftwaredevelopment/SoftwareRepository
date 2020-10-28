@@ -1,11 +1,13 @@
+/* eslint-disable no-console */
+
 /**
  * Handles the logging
  */
-const config = require("./config");
+const config = require('./config');
 
 const info = (...params) => {
   // To disable logging to console in test environment
-  if (config.NODE_ENVIRONMENT !== "test") {
+  if (config.NODE_ENVIRONMENT !== 'test') {
     console.log(...params);
   }
 };

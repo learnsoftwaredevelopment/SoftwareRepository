@@ -1,4 +1,4 @@
-const User = require("../../../models/user");
+const User = require('../../../models/user');
 
 const usersInDb = async () => {
   const users = await User.find({});
@@ -6,17 +6,17 @@ const usersInDb = async () => {
 };
 
 const sampleUserInDb1 = {
-  username: "Sample",
-  name: "SampleName",
-  email: "sample@example.com",
-  passwordHash: "SamplePasswordHash",
+  username: 'Sample',
+  name: 'SampleName',
+  email: 'sample@example.com',
+  passwordHash: 'SamplePasswordHash',
 };
 
 const sampleUserInDb2 = {
-  username: "Sample2",
-  name: "SampleName2",
-  email: "sample2@example.com",
-  passwordHash: "SamplePasswordHash2",
+  username: 'Sample2',
+  name: 'SampleName2',
+  email: 'sample2@example.com',
+  passwordHash: 'SamplePasswordHash2',
 };
 
 const addUserToDb = async (userObject) => {
@@ -31,7 +31,7 @@ const addUserToDb = async (userObject) => {
  * @param {Object} userObject
  */
 const sanitizeUserObject = (userObject) => {
-  let expectedUserObject = {
+  const expectedUserObject = {
     ...userObject,
   };
 

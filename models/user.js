@@ -1,40 +1,40 @@
-const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
-const { isEmail, normalizeEmail } = require("validator");
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+const { isEmail, normalizeEmail } = require('validator');
 
-const usernameRegex = RegExp("^[a-z0-9_.-]+$");
+const usernameRegex = RegExp('^[a-z0-9_.-]+$');
 
 const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: [true, "Missing username"],
-      minlength: [6, "The username should be at least 6 characters long"],
+      required: [true, 'Missing username'],
+      minlength: [6, 'The username should be at least 6 characters long'],
       unique: true,
       lowercase: true,
       trim: true,
       validate: [
         (value) => usernameRegex.test(value),
-        "A valid username is required",
+        'A valid username is required',
       ],
     },
     name: {
       type: String,
       trim: true,
-      required: [true, "Name is required"],
+      required: [true, 'Name is required'],
     },
     email: {
       type: String,
-      required: [true, "An email address is required"],
+      required: [true, 'An email address is required'],
       unique: true,
       lowercase: true,
       trim: true,
-      validate: [isEmail, "A valid email address is required"],
+      validate: [isEmail, 'A valid email address is required'],
       set: (value) => normalizeEmail(value),
     },
     passwordHash: {
       type: String,
-      required: [true, "Password hash is required"],
+      required: [true, 'Password hash is required'],
     },
     roles: {
       type: [
@@ -44,13 +44,13 @@ const userSchema = new mongoose.Schema(
           trim: true,
         },
       ],
-      default: ["user"],
+      default: ['user'],
     },
     developerOf: {
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Software",
+          ref: 'Software',
         },
       ],
       default: [],
@@ -59,7 +59,7 @@ const userSchema = new mongoose.Schema(
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Software",
+          ref: 'Software',
         },
       ],
       default: [],
@@ -69,7 +69,7 @@ const userSchema = new mongoose.Schema(
         type: [
           {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Software",
+            ref: 'Software',
           },
         ],
         default: [],
@@ -78,7 +78,7 @@ const userSchema = new mongoose.Schema(
         type: [
           {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Software",
+            ref: 'Software',
           },
         ],
         default: [],
@@ -89,7 +89,7 @@ const userSchema = new mongoose.Schema(
         type: [
           {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Software",
+            ref: 'Software',
           },
         ],
         default: [],
@@ -100,12 +100,12 @@ const userSchema = new mongoose.Schema(
       },
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-userSchema.plugin(uniqueValidator, { message: "{PATH} must be unique." });
+userSchema.plugin(uniqueValidator, { message: '{PATH} must be unique.' });
 
-userSchema.set("toJSON", {
+userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -114,4 +114,4 @@ userSchema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

@@ -1,9 +1,9 @@
-const User = require("../../models/user");
-const Software = require("../../models/software");
-const config = require("../../utils/config");
-const bcrypt = require("bcrypt");
-const usersTestUtils = require("./api/usersTestUtils");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const User = require('../../models/user');
+const Software = require('../../models/software');
+const config = require('../../utils/config');
+const usersTestUtils = require('./api/usersTestUtils');
 
 const resetDatabase = async () => {
   await User.deleteMany({});
@@ -12,12 +12,12 @@ const resetDatabase = async () => {
 
 const initialiseADefaultUserInDb = async () => {
   const saltRounds = config.BCRYPT_SALT_ROUNDS;
-  const passwordHash = await bcrypt.hash("SamplePassword", saltRounds);
+  const passwordHash = await bcrypt.hash('SamplePassword', saltRounds);
 
   const userToAdd = {
-    username: "Sample",
-    name: "SampleName",
-    email: "sample@example.com",
+    username: 'Sample',
+    name: 'SampleName',
+    email: 'sample@example.com',
     passwordHash,
   };
 
@@ -37,9 +37,7 @@ const loginUserToken = (testUser) => {
   return token;
 };
 
-const formattedToken = (token) => {
-  return `bearer ${token}`;
-};
+const formattedToken = (token) => `bearer ${token}`;
 
 module.exports = {
   resetDatabase,
