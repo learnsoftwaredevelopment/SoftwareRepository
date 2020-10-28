@@ -1,27 +1,27 @@
-const softwaresRouter = require("express").Router();
-const middleware = require("../../utils/middleware");
-const softwaresControllers = require("../../controllers/api/softwaresController");
+const softwaresRouter = require('express').Router();
+const middleware = require('../../utils/middleware');
+const softwaresControllers = require('../../controllers/api/softwaresController');
 
-softwaresRouter.get("/", softwaresControllers.getSoftwares);
+softwaresRouter.get('/', softwaresControllers.getSoftwares);
 
 softwaresRouter.post(
-  "/",
+  '/',
   middleware.tokenValidation,
-  softwaresControllers.postSoftwares
+  softwaresControllers.postSoftwares,
 );
 
 softwaresRouter.put(
-  "/:id",
+  '/:id',
   middleware.tokenValidation,
-  softwaresControllers.putSoftware
+  softwaresControllers.putSoftware,
 );
 
-softwaresRouter.get("/:id", softwaresControllers.getSoftware);
+softwaresRouter.get('/:id', softwaresControllers.getSoftware);
 
 softwaresRouter.delete(
-  "/:id",
+  '/:id',
   middleware.tokenValidation,
-  softwaresControllers.deleteSoftware
+  softwaresControllers.deleteSoftware,
 );
 
 module.exports = softwaresRouter;

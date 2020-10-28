@@ -1,28 +1,30 @@
-const bcrypt = require("bcrypt");
-const User = require("../../models/user");
-const config = require("../../utils/config");
+const bcrypt = require('bcrypt');
+const User = require('../../models/user');
+const config = require('../../utils/config');
 
 const getUsers = async (req, res) => {
   const users = await User.find({})
-    .populate("contributions.softwaresAdded", {
+    .populate('contributions.softwaresAdded', {
       name: 1,
     })
-    .populate("contributions.softwaresContributed", {
+    .populate('contributions.softwaresContributed', {
       name: 1,
     });
   res.json(users);
 };
 
 const postUsers = async (req, res) => {
-  const body = req.body;
+  const { body } = req;
 
   if (!body.password) {
     return res.status(400).json({
-      error: "`password` is required.",
+      error: '`password` is required.',
     });
-  } else if (body.password.length < 8) {
+  }
+
+  if (body.password.length < 8) {
     return res.status(400).json({
-      error: "Password has to be at least 8 characters long.",
+      error: 'Password has to be at least 8 characters long.',
     });
   }
 
@@ -38,7 +40,7 @@ const postUsers = async (req, res) => {
 
   const savedUser = await user.save();
 
-  res.status(201).json(savedUser);
+  return res.status(201).json(savedUser);
 };
 
 module.exports = {

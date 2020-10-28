@@ -6,13 +6,14 @@
 
 ## Introduction
 
-The **Software Repository** REST API Service provides access to various software information such as software description and latest software version. 
+The **Software Repository** REST API Service provides access to various software information such as software description and latest software version.
 
 This Backend REST API Service is used by **Software Repository** platform.
 
-**Software Repository** aims to be a platform to share and discover softwares. The platform also allows software developers to add their softwares to the platform and share them with the rest of the world. 
+**Software Repository** aims to be a platform to share and discover softwares. The platform also allows software developers to add their softwares to the platform and share them with the rest of the world.
 
 ## Purpose
+
 There is a lack of a REST API for softwares and this project aims to address this problem by providing a REST API for users to query/submit software information.
 
 It also serves as my personal project to learn web development and testing.
@@ -20,12 +21,14 @@ It also serves as my personal project to learn web development and testing.
 ## My Sample code
 
 ### Testing
+
 - The users API endpoint Testing: [users.test.js](https://github.com/learnsoftwaredevelopment/SoftwareRepository/blob/master/tests/api/users/users.test.js)
 
 ## Getting Started
-1) Clone the **Software Repository**'s GitHub Repository.
 
-2) Create a `.env` file in the project root directory with the structure as shown below.
+1. Clone the **Software Repository**'s GitHub Repository.
+
+2. Create a `.env` file in the project root directory with the structure as shown below.
 
 Sample `.env` file
 
@@ -39,13 +42,13 @@ JWT_SECRET=<YOUR_JWT_SECRET>
 
 **Note:** Please ensure that you key in all your desired values for the respective fields in the `.env` files.
 
-3) Open your favourite terminal/command prompt in the **SoftwareRepository**'s working directory.
+3. Open your favourite terminal/command prompt in the **SoftwareRepository**'s working directory.
 
-4) Install the necessary dependencies using `npm install`.
+4. Install the necessary dependencies using `npm install`.
 
-5) To launch the App in *production* mode, run `npm start` (recommended). For developers, you can run `npm run start-dev` to launch the App in *development* mode.
+5. To launch the App in _production_ mode, run `npm start` (recommended). For developers, you can run `npm run start-dev` to launch the App in _development_ mode.
 
-6) (Optional) To execute the included test cases, run `npm test`.
+6. (Optional) To execute the included test cases, run `npm test`.
 
 To be Added.
 
@@ -53,9 +56,9 @@ To be Added.
 
 **Prerequisite:** The host operating system has [Docker](https://www.docker.com/) already installed.
 
-1) Clone the **Software Repository**'s GitHub Repository.
+1. Clone the **Software Repository**'s GitHub Repository.
 
-2) Open the `Dockerfile` and edit the environmental variables (`ENV`) and port in which container is listening to at runtime (`EXPOSE`) with your desired values.
+2. Open the `Dockerfile` and edit the environmental variables (`ENV`) and port in which container is listening to at runtime (`EXPOSE`) with your desired values.
 
 ```Dockerfile
 # The container environmental variables.
@@ -70,54 +73,68 @@ EXPOSE 8080
 
 **Note:** Please ensure the values for `PORT` and `EXPOSE` are the same. An example: `ENV PORT=8080` and `EXPOSE 8080`.
 
-3) Save the changes made to `Dockerfile`.
+3. Save the changes made to `Dockerfile`.
 
-4) Open your favourite terminal/command prompt in the **Software Repository**'s working directory.
+4. Open your favourite terminal/command prompt in the **Software Repository**'s working directory.
 
-5) Build the docker image using `docker build -t software_repository:latest .`
+5. Build the docker image using `docker build -t software_repository:latest .`
 
-6) After the docker image has been built, run the container using `docker run -p 8080:8080 software_repository:latest`
-  
+6. After the docker image has been built, run the container using `docker run -p 8080:8080 software_repository:latest`
+
 **Note:** In Step 6, the `PORT` environment value and `EXPOSE` value are assumed to be `8080`.
 
 ## Instructions to run the multi container setup using Docker Compose
 
 Services included in the multi container setup in `docker-compose.yml`:
-  - Software Repository App
-  - MongoDB (database)
-  - Mongo Express (Web based MongoDB Admin Interface for database management)
+
+- Software Repository App
+- MongoDB (database)
+- Mongo Express (Web based MongoDB Admin Interface for database management)
 
 **Prerequisite:** The `Dockerfile` has been configured. If not, please follow the instructions in [Instructions to Configure, Build and Run Docker Image](#instructions-to-configure-build-and-run-docker-image).
 
-1) In the **Software Repository**'s working directory, run the multi container setup using `docker-compose up --build` or `docker-compose up -d --build` (detached mode).
+1. In the **Software Repository**'s working directory, run the multi container setup using `docker-compose up --build` or `docker-compose up -d --build` (detached mode).
 
-2) To access the **Software Repository** App, go to [http://localhost:8080](http://localhost:8080).
+2. To access the **Software Repository** App, go to [http://localhost:8080](http://localhost:8080).
 
 **Note:** Assuming `PORT` environmental variable is not changed in Step 2 of [ Instructions to Configure, Build and Run Docker Image](#instructions-to-configure-build-and-run-docker-image).
 
-3) (Optional) To access the Mongo Express interface, go to [http://localhost:8081](http://localhost:8081).
+3. (Optional) To access the Mongo Express interface, go to [http://localhost:8081](http://localhost:8081).
 
 ## Documentation
+
 To be Added.
 
+## Coding Standards
+
+The source code follows [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript) as much as possible with some slight modifications to Airbnb's ESlint configuration.
+
 ## Technologies and Frameworks
+
 A list of the technologies and frameworks used in this project
 
 ### Backend Technologies
+
 - Node.js (Node 12)
 - MongoDB
 
 ### General Frameworks used
+
 - Express.js
 
 ### Testing Frameworks used
+
 - Jest (Javascript Testing Framework)
 
 ### Others
+
 - GitHub Actions for Continuous Integration (CI)
 - Docker for containerisation (Refer to [Instructions to Configure, Build and Run Docker Image Section](#instructions-to-configure-build-and-run-docker-image) or [Instructions to run the multi container setup using Docker Compose](#instructions-to-run-the-multi-container-setup-using-docker-compose))
+- ESLint (Javascript Linter)
 
 ## Recommended Development Tools
+
 ### API and REST Clients
+
 - Visual Studio Code's REST client plugin (`.rest` files to test API endpoints can be found in the `requests` directory)
 - Postman (Alternative)

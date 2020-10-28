@@ -1,16 +1,15 @@
 /**
  * Handles the environmental variables
  */
-require("dotenv").config();
+require('dotenv').config();
 
 const PORT = process.env.PORT || 3001;
 const NODE_ENVIRONMENT = process.env.NODE_ENV;
-const MONGODB_URI =
-  NODE_ENVIRONMENT === "test"
-    ? process.env.TEST_MONGODB_URI
-    : process.env.MONGODB_URI;
+const MONGODB_URI = NODE_ENVIRONMENT === 'test'
+  ? process.env.TEST_MONGODB_URI
+  : process.env.MONGODB_URI;
 const BCRYPT_SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS);
-const JWT_SECRET = process.env.JWT_SECRET;
+const { JWT_SECRET } = process.env;
 
 module.exports = {
   PORT,

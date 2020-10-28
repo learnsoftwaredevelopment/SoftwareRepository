@@ -1,15 +1,15 @@
 /**
  * The custom middlewares
  */
-const logger = require("./logger");
-const jwt = require("jsonwebtoken");
-const config = require("./config");
-const User = require("../models/user");
+const jwt = require('jsonwebtoken');
+const logger = require('./logger');
+const config = require('./config');
+const User = require('../models/user');
 
 const getTokenFrom = (req) => {
-  const authorization = req.get("Authorization");
+  const authorization = req.get('Authorization');
 
-  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
     return authorization.substring(7);
   }
 
@@ -31,7 +31,7 @@ const tokenValidation = async (req, res, next) => {
   // Only registered users can post to softwares API endpoint
   if (!token || !decodedToken.id || !(await User.findById(decodedToken.id))) {
     return res.status(401).json({
-      error: "Missing or Invalid Token",
+      error: 'Missing or Invalid Token',
     });
   }
 
@@ -42,24 +42,26 @@ const tokenValidation = async (req, res, next) => {
 
 const unknownEndPoint = (req, res) => {
   res.status(404).json({
-    error: "unknown endpoint",
+    error: 'unknown endpoint',
   });
 };
 
 const errorHandler = (error, req, res, next) => {
-  if (error.name === "ValidationError") {
-    let errorObject = {};
-    Object.values(error.errors).forEach(
-      ({ properties }) => (errorObject[properties.path] = properties.message)
-    );
-    return res.status(400).json({ error: errorObject });
-  } else if (error.name === "JsonWebTokenError") {
-    return res.status(401).json({
-      error: "Invalid Token",
+  if (error.name === 'ValidationError') {
+    const errorObject = {};
+    Object.values(error.errors).forEach(({ properties }) => {
+      errorObject[properties.path] = properties.message;
     });
-  } else if (error.name === "CastError") {
+    return res.status(400).json({ error: errorObject });
+  }
+  if (error.name === 'JsonWebTokenError') {
+    return res.status(401).json({
+      error: 'Invalid Token',
+    });
+  }
+  if (error.name === 'CastError') {
     return res.status(400).json({
-      error: "Malformatted id",
+      error: 'Malformatted id',
     });
   }
 
