@@ -108,12 +108,16 @@ const getSoftware = async (req, res) => {
 
   const software = await Software.findById(id);
 
+  if (software === null) {
+    return res.status(404).end();
+  }
+
   const response = await software
     .populate('meta.addedByUser', { username: 1, name: 1 })
     .populate('meta.updatedByUser', { username: 1, name: 1 })
     .execPopulate();
 
-  res.status(200).json(response);
+  return res.status(200).json(response);
 };
 
 const deleteSoftware = async (req, res) => {
