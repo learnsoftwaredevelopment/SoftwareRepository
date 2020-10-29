@@ -10,7 +10,7 @@ const getUsers = async (req, res) => {
     .populate('contributions.softwaresContributed', {
       name: 1,
     });
-  res.json(users);
+  return res.json(users);
 };
 
 const postUsers = async (req, res) => {
