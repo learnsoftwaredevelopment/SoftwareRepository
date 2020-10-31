@@ -1,35 +1,23 @@
 /**
  * The custom middlewares
  */
-const jwt = require('jsonwebtoken');
 const logger = require('./logger');
-const config = require('./config');
-const User = require('../models/user');
-
-const getTokenFrom = (req) => {
-  const authorization = req.get('Authorization');
-
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-
-  return null;
-};
+const { getReqAuthToken, verifyAuthToken } = require('./jwtUtils');
 
 /**
  * Middleware to protect API endpoints through token validation.
- * Returns json error message with status code 401 if token is missing or invalid.
- * If token is valid, add decodedToken Object Property to req.
+ * Returns json error message with status code 401 if token is missing, invalid
+ * or user id in payload is invalid.
+ * If token is valid and user id is valid, add decodedToken Object Property to req.
  * @param {Object} req request Object
  * @param {Object} res response Object
  * @param {Function} next Function which can be called to pass controls to the next handler
  */
 const tokenValidation = async (req, res, next) => {
-  const token = getTokenFrom(req);
-  const decodedToken = !token ? null : jwt.verify(token, config.JWT_SECRET);
+  const token = getReqAuthToken(req);
+  const decodedToken = await verifyAuthToken(token);
 
-  // Only registered users can post to softwares API endpoint
-  if (!token || !decodedToken.id || !(await User.findById(decodedToken.id))) {
+  if (!decodedToken) {
     return res.status(401).json({
       error: 'Missing or Invalid Token',
     });

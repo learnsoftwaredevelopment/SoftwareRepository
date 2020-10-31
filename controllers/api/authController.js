@@ -2,8 +2,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../../models/user');
 const config = require('../../utils/config');
+const { getReqAuthToken, verifyAuthToken } = require('../../utils/jwtUtils');
 
-const postLogin = async (req, res) => {
+const postAuth = async (req, res) => {
   const { body } = req;
 
   // Return the user before update so can view last login.
@@ -14,9 +15,10 @@ const postLogin = async (req, res) => {
     },
   );
 
-  const passwordCorrect = user === null
-    ? false
-    : await bcrypt.compare(body.password, user.passwordHash);
+  const passwordCorrect =
+    user === null
+      ? false
+      : await bcrypt.compare(body.password, user.passwordHash);
 
   if (!(user && passwordCorrect)) {
     return res.status('401').json({
@@ -39,6 +41,22 @@ const postLogin = async (req, res) => {
   });
 };
 
+const getAuth = async (req, res) => {
+  const token = getReqAuthToken(req);
+  const decodedToken = await verifyAuthToken(token);
+
+  if (!decodedToken) {
+    return res.status(401).json({
+      error: 'Missing or Invalid Token',
+    });
+  }
+
+  return res.status(200).json({
+    ...decodedToken,
+  });
+};
+
 module.exports = {
-  postLogin,
+  postAuth,
+  getAuth,
 };
