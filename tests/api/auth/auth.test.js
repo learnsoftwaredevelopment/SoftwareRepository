@@ -11,8 +11,8 @@ beforeEach(async () => {
   await initialiseADefaultUserInDb();
 });
 
-describe('Login Controller', () => {
-  describe('POST request to /api/login/', () => {
+describe('Auth Controller', () => {
+  describe('POST request to /api/auth/', () => {
     test('When the username is incorrect, return status code 401 and json with error Invalid username and/or password message', async () => {
       const loginUser = {
         username: 'Sampl',
@@ -20,7 +20,7 @@ describe('Login Controller', () => {
       };
 
       const response = await api
-        .post('/api/login')
+        .post('/api/auth')
         .send(loginUser)
         .expect(401)
         .expect('Content-Type', /application\/json/);
@@ -35,7 +35,7 @@ describe('Login Controller', () => {
       };
 
       const response = await api
-        .post('/api/login')
+        .post('/api/auth')
         .send(loginUser)
         .expect(401)
         .expect('Content-Type', /application\/json/);
@@ -50,7 +50,7 @@ describe('Login Controller', () => {
       };
 
       const response = await api
-        .post('/api/login')
+        .post('/api/auth')
         .send(loginUser)
         .expect(401)
         .expect('Content-Type', /application\/json/);
@@ -65,7 +65,7 @@ describe('Login Controller', () => {
       };
 
       const response = await api
-        .post('/api/login')
+        .post('/api/auth')
         .send(loginUser)
         .expect(200)
         .expect('Content-Type', /application\/json/);
