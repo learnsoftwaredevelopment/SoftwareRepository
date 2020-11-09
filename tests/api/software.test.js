@@ -1,28 +1,34 @@
 const supertest = require('supertest');
 const mongoose = require('mongoose');
-const app = require('../../../app');
-const databaseSetupTestUtils = require('../../utils/databaseSetup');
-const softwareTestUtils = require('../../utils/api/softwaresTestUtils');
+const app = require('../../app');
+const databaseSetup = require('../utils/databaseSetup');
+const usersTestUtils = require('../utils/api/usersTestUtils');
+const softwareTestUtils = require('../utils/api/softwareTestUtils');
+const firebaseTestUtils = require('../utils/firebaseTestUtils');
 
 const api = supertest(app);
 
 let defaultUser;
-let token;
 
 beforeEach(async () => {
-  await databaseSetupTestUtils.resetDatabase();
-  defaultUser = await databaseSetupTestUtils.initialiseADefaultUserInDb();
-  token = databaseSetupTestUtils.loginUserToken(defaultUser);
+  await databaseSetup.resetDatabase();
+  defaultUser = await usersTestUtils.addUserToDb(
+    usersTestUtils.sampleUserCredential1,
+  );
+  await databaseSetup.setBackendIdOfDefaultUser(
+    usersTestUtils.sampleUserCredential1,
+    defaultUser.id,
+  );
 });
 
 describe('Software Controller', () => {
-  describe('GET request to /api/softwares/', () => {
+  describe('GET request to /api/software/', () => {
     test('When there is no software in database, return status code 200 and json with an empty array of softwares', async () => {
-      const initialSoftwaresInDb = await softwareTestUtils.softwaresInDb();
-      expect(initialSoftwaresInDb).toHaveLength(0);
+      const initialSoftwareInDb = await databaseSetup.softwareInDb();
+      expect(initialSoftwareInDb).toHaveLength(0);
 
       const response = await api
-        .get('/api/softwares')
+        .get('/api/software')
         .expect(200)
         .expect('Content-Type', /application\/json/);
 
@@ -38,11 +44,11 @@ describe('Software Controller', () => {
         defaultUser._id,
       );
 
-      const initialSoftwaresInDb = await softwareTestUtils.softwaresInDb();
-      expect(initialSoftwaresInDb).toHaveLength(1);
+      const initialSoftwareInDb = await databaseSetup.softwareInDb();
+      expect(initialSoftwareInDb).toHaveLength(1);
 
       const response = await api
-        .get('/api/softwares')
+        .get('/api/software')
         .expect(200)
         .expect('Content-Type', /application\/json/);
 
@@ -50,7 +56,7 @@ describe('Software Controller', () => {
         ...softwareToAdd,
         // Since the name and platform values are stored in lowercase in the database.
         name: softwareToAdd.name.toLowerCase(),
-        platforms: softwareToAdd.platforms.map((platform) => platform.toLowerCase()),
+        platform: softwareToAdd.platform.toLowerCase(),
         meta: {
           addedByUser: {
             username: defaultUser.username,
@@ -83,11 +89,11 @@ describe('Software Controller', () => {
         defaultUser._id,
       );
 
-      const initialSoftwaresInDb = await softwareTestUtils.softwaresInDb();
-      expect(initialSoftwaresInDb).toHaveLength(2);
+      const initialSoftwareInDb = await databaseSetup.softwareInDb();
+      expect(initialSoftwareInDb).toHaveLength(2);
 
       const response = await api
-        .get('/api/softwares')
+        .get('/api/software')
         .expect(200)
         .expect('Content-Type', /application\/json/);
 
@@ -95,7 +101,7 @@ describe('Software Controller', () => {
         ...softwareToAdd1,
         // Since the name and platform values are stored in lowercase in the database.
         name: softwareToAdd1.name.toLowerCase(),
-        platforms: softwareToAdd1.platforms.map((platform) => platform.toLowerCase()),
+        platform: softwareToAdd1.platform.toLowerCase(),
         meta: {
           addedByUser: {
             username: defaultUser.username,
@@ -112,7 +118,7 @@ describe('Software Controller', () => {
         ...softwareToAdd2,
         // Since the name and platform values are stored in lowercase in the database.
         name: softwareToAdd2.name.toLowerCase(),
-        platforms: softwareToAdd2.platforms.map((platform) => platform.toLowerCase()),
+        platform: softwareToAdd2.platform.toLowerCase(),
         meta: {
           addedByUser: {
             username: defaultUser.username,
@@ -135,9 +141,9 @@ describe('Software Controller', () => {
 });
 
 describe('Software Controller', () => {
-  describe('POST request to /api/softwares/', () => {
+  describe('POST request to /api/software/', () => {
     test('When missing Authorisation token, return with status 401 with json Missing or Invalid Token error message, no change in the number of softwares in database', async () => {
-      const initialSoftwaresInDb = await softwareTestUtils.softwaresInDb();
+      const initialSoftwareInDb = await databaseSetup.softwareInDb();
 
       const softwareToAdd = {
         ...softwareTestUtils.sampleSoftwareInDb1,
@@ -154,18 +160,18 @@ describe('Software Controller', () => {
       };
 
       const response = await api
-        .post('/api/softwares')
+        .post('/api/software/')
         .send(softwareToAdd)
         .expect(401)
         .expect('Content-Type', /application\/json/);
 
-      const softwaresInDb = await softwareTestUtils.softwaresInDb();
-      expect(softwaresInDb).toHaveLength(initialSoftwaresInDb.length);
-      expect(response.body.error).toBe('Missing or Invalid Token');
+      const softwareInDb = await databaseSetup.softwareInDb();
+      expect(softwareInDb).toHaveLength(initialSoftwareInDb.length);
+      expect(response.body.error).toBe('Missing Token');
     });
 
     test('When invalid Authorisation token, return with status 401 with json Token missing or invalid error message, no change in the number of softwares in database', async () => {
-      const initialSoftwaresInDb = await softwareTestUtils.softwaresInDb();
+      const initialSoftwareInDb = await databaseSetup.softwareInDb();
 
       const softwareToAdd = {
         ...softwareTestUtils.sampleSoftwareInDb1,
@@ -182,19 +188,25 @@ describe('Software Controller', () => {
       };
 
       const response = await api
-        .post('/api/softwares')
+        .post('/api/software/')
         .set('Authorization', 'bearer invalid token')
         .send(softwareToAdd)
         .expect(401)
         .expect('Content-Type', /application\/json/);
 
-      const softwaresInDb = await softwareTestUtils.softwaresInDb();
-      expect(softwaresInDb).toHaveLength(initialSoftwaresInDb.length);
+      const softwareInDb = await databaseSetup.softwareInDb();
+      expect(softwareInDb).toHaveLength(initialSoftwareInDb.length);
       expect(response.body.error).toBe('Invalid Token');
     });
 
     test('When request is valid, number of softwares in database increments by 1', async () => {
-      const initialSoftwaresInDb = await softwareTestUtils.softwaresInDb();
+      const { email, password } = usersTestUtils.sampleUserCredential1;
+      const { idToken } = await firebaseTestUtils.loginFireBase(
+        email,
+        password,
+      );
+
+      const initialSoftwareInDb = await databaseSetup.softwareInDb();
 
       const softwareToAdd = {
         ...softwareTestUtils.sampleSoftwareInDb1,
@@ -211,8 +223,8 @@ describe('Software Controller', () => {
       };
 
       const response = await api
-        .post('/api/softwares')
-        .set('Authorization', databaseSetupTestUtils.formattedToken(token))
+        .post('/api/software/')
+        .set('Authorization', `bearer ${idToken}`)
         .send(softwareToAdd)
         .expect(201)
         .expect('Content-Type', /application\/json/);
@@ -221,17 +233,17 @@ describe('Software Controller', () => {
         ...softwareToAdd,
         // Since the name and platform values are stored in lowercase in the database.
         name: softwareToAdd.name.toLowerCase(),
-        platforms: softwareToAdd.platforms.map((platform) => platform.toLowerCase()),
+        platform: softwareToAdd.platform.toLowerCase(),
       };
 
-      const softwaresInDb = await softwareTestUtils.softwaresInDb();
-      expect(softwaresInDb).toHaveLength(initialSoftwaresInDb.length + 1);
+      const softwareInDb = await databaseSetup.softwareInDb();
+      expect(softwareInDb).toHaveLength(initialSoftwareInDb.length + 1);
       expect(response.body).toMatchObject(expectedSoftware);
     });
   });
 });
 
 afterAll(async () => {
-  await databaseSetupTestUtils.resetDatabase();
+  await databaseSetup.resetDatabase();
   await mongoose.connection.close();
 });

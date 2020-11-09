@@ -1,1 +1,1 @@
-GET http://localhost:3001/api/softwares/5f5e01ad5b0c9840c0d7f717
+GET http://localhost:3001/api/software/

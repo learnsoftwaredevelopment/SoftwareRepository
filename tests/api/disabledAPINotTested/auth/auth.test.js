@@ -1,8 +1,8 @@
 const supertest = require('supertest');
 const mongoose = require('mongoose');
-const app = require('../../../app');
-const databaseSetupTestUtils = require('../../utils/databaseSetup');
-const { initialiseADefaultUserInDb } = require('../../utils/databaseSetup');
+const app = require('../../../../app');
+const databaseSetupTestUtils = require('../../../utils/databaseSetup');
+const { initialiseADefaultUserInDb } = require('../../../utils/databaseSetup');
 
 const api = supertest(app);
 

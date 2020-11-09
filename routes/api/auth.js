@@ -1,8 +1,9 @@
 const authRouter = require('express').Router();
 const authController = require('../../controllers/api/authController');
+const { disabledAPIEndPoint } = require('../../utils/middleware');
 
-authRouter.post('/', authController.postAuth);
+authRouter.post('/', disabledAPIEndPoint, authController.postAuth);
 
-authRouter.get('/', authController.getAuth);
+authRouter.get('/', disabledAPIEndPoint, authController.getAuth);
 
 module.exports = authRouter;

@@ -32,9 +32,14 @@ const userSchema = new mongoose.Schema(
       validate: [isEmail, 'A valid email address is required'],
       set: (value) => normalizeEmail(value),
     },
-    passwordHash: {
+    password: {
       type: String,
-      required: [true, 'Password hash is required'],
+      default: '',
+    },
+    firebaseUid: {
+      type: String,
+      required: [true, 'firebase user id is required.'],
+      unique: true,
     },
     roles: {
       type: [
@@ -110,7 +115,7 @@ userSchema.set('toJSON', {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
-    delete returnedObject.passwordHash;
+    delete returnedObject.password;
   },
 });
 
