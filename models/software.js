@@ -41,14 +41,10 @@ const softwareSchema = new mongoose.Schema(
       ],
       required: [true, 'Software homepage url is required'],
     },
-    platforms: {
-      type: [
-        {
-          type: String,
-          trim: true,
-          lowercase: true,
-        },
-      ],
+    platform: {
+      type: String,
+      trim: true,
+      lowercase: true,
       required: [true, 'Software platform is required'],
     },
     isActiveDevelopment: {

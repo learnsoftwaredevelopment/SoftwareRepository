@@ -1,4 +1,4 @@
-POST http://localhost:3001/api/softwares/
+POST http://localhost:3001/api/software/
 Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbXBsZSIsImlkIjoiNWY4ZGEzODcwODlmZmY0ZGIwNmJjMGFmIiwiaWF0IjoxNjAzODkzMzExfQ.ARy4EKDMzJqd4DcZyWXP5hygSQ9A2Bw1YfMQ-Nb03JU
 
@@ -6,8 +6,6 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhb
     "name": "SampleSoftware8",
     "description": "A sample software",
     "homePage": "http://example.com",
-    "platforms": [
-        "Windows"
-    ],
+    "platform": "Windows",
     "isActiveDevelopment": true
 }

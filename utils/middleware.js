@@ -14,23 +14,42 @@ const { getReqAuthToken, verifyAuthToken } = require('./jwtUtils');
  * @param {Function} next Function which can be called to pass controls to the next handler
  */
 const tokenValidation = async (req, res, next) => {
-  const token = getReqAuthToken(req);
-  const decodedToken = await verifyAuthToken(token);
+  try {
+    const token = getReqAuthToken(req);
 
-  if (!decodedToken) {
+    const decodedToken = await verifyAuthToken(token, true);
+
+    if (!decodedToken) {
+      return res.status(401).json({
+        error: 'Missing Token',
+      });
+    }
+
+    req.body.decodedToken = decodedToken;
+
+    next();
+  } catch (err) {
+    let error = null;
+    if (err.code === 'auth/id-token-revoked') {
+      error = 'Token has been revoked. Please reauthenticate.';
+    } else {
+      error = 'Invalid Token';
+    }
     return res.status(401).json({
-      error: 'Missing or Invalid Token',
+      error,
     });
   }
-
-  req.body.decodedToken = decodedToken;
-
-  next();
 };
 
 const unknownEndPoint = (req, res) => {
   res.status(404).json({
     error: 'unknown endpoint',
+  });
+};
+
+const disabledAPIEndPoint = (req, res) => {
+  res.status(403).json({
+    error: 'API endpoint disabled',
   });
 };
 
@@ -42,11 +61,7 @@ const errorHandler = (error, req, res, next) => {
     });
     return res.status(400).json({ error: errorObject });
   }
-  if (error.name === 'JsonWebTokenError') {
-    return res.status(401).json({
-      error: 'Invalid Token',
-    });
-  }
+
   if (error.name === 'CastError') {
     return res.status(400).json({
       error: 'Malformatted id',
@@ -61,4 +76,5 @@ module.exports = {
   unknownEndPoint,
   errorHandler,
   tokenValidation,
+  disabledAPIEndPoint,
 };

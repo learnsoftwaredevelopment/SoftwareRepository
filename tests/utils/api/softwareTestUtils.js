@@ -4,7 +4,7 @@ const sampleSoftwareInDb1 = {
   name: 'SampleSoftware',
   description: 'A sample software 1',
   homePage: 'http://example.com',
-  platforms: ['Windows'],
+  platform: 'Windows',
   isActiveDevelopment: true,
 };
 
@@ -12,7 +12,7 @@ const sampleSoftwareInDb2 = {
   name: 'SampleSoftware2',
   description: 'A sample software 1',
   homePage: 'http://apple.com',
-  platforms: ['MacOS'],
+  platform: 'MacOS',
   isActiveDevelopment: false,
 };
 
@@ -27,13 +27,13 @@ const addSoftwareToDb = async (softwareObject, addedByUser, updatedByUser) => {
   await softwareToAdd.save();
 };
 
-const softwaresInDb = async () => {
-  const softwares = await Software.find({});
-  return softwares;
+const softwareInDb = async () => {
+  const software = await Software.find({});
+  return software;
 };
 
 module.exports = {
-  softwaresInDb,
+  softwareInDb,
   addSoftwareToDb,
   sampleSoftwareInDb1,
   sampleSoftwareInDb2,

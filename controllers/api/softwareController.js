@@ -3,7 +3,7 @@ const Software = require('../../models/software');
 const User = require('../../models/user');
 const databaseUtils = require('../../utils/databaseUtils');
 
-const getSoftwares = async (req, res) => {
+const getSoftware = async (req, res) => {
   const softwares = await Software.find({})
     .populate('meta.addedByUser', {
       username: 1,
@@ -16,9 +16,9 @@ const getSoftwares = async (req, res) => {
   res.status(200).json(softwares);
 };
 
-const postSoftwares = async (req, res) => {
+const postSoftware = async (req, res) => {
   const { body } = req;
-  const userId = body.decodedToken.id;
+  const userId = body.decodedToken.backendId;
 
   // Refer to software Model for required parameters.
   const softwareObject = {
@@ -60,10 +60,10 @@ const postSoftwares = async (req, res) => {
   return res.status(201).json(saved);
 };
 
-const putSoftware = async (req, res) => {
+const patchSoftwareById = async (req, res) => {
   const { id } = req.params;
   const { body } = req;
-  const userId = body.decodedToken.id;
+  const userId = body.decodedToken.backendId;
 
   // To configure dotObject transformation to not modify how the array is represented.
   dotObject.keepArray = true;
@@ -103,7 +103,7 @@ const putSoftware = async (req, res) => {
   return res.status(200).json(updated);
 };
 
-const getSoftware = async (req, res) => {
+const getSoftwareById = async (req, res) => {
   const { id } = req.params;
 
   const software = await Software.findById(id);
@@ -120,7 +120,7 @@ const getSoftware = async (req, res) => {
   return res.status(200).json(response);
 };
 
-const deleteSoftware = async (req, res) => {
+const deleteSoftwareById = async (req, res) => {
   const { id } = req.params;
 
   const response = await Software.findByIdAndDelete(id);
@@ -136,9 +136,9 @@ const deleteSoftware = async (req, res) => {
 };
 
 module.exports = {
-  getSoftwares,
-  postSoftwares,
-  putSoftware,
   getSoftware,
-  deleteSoftware,
+  postSoftware,
+  patchSoftwareById,
+  getSoftwareById,
+  deleteSoftwareById,
 };

@@ -8,13 +8,11 @@ const NODE_ENVIRONMENT = process.env.NODE_ENV;
 const MONGODB_URI = NODE_ENVIRONMENT === 'test'
   ? process.env.TEST_MONGODB_URI
   : process.env.MONGODB_URI;
-const BCRYPT_SALT_ROUNDS = Number(process.env.BCRYPT_SALT_ROUNDS);
-const { JWT_SECRET } = process.env;
+const { TEST_FIREBASE_CLIENT_API_KEY } = process.env;
 
 module.exports = {
   PORT,
   NODE_ENVIRONMENT,
   MONGODB_URI,
-  BCRYPT_SALT_ROUNDS,
-  JWT_SECRET,
+  TEST_FIREBASE_CLIENT_API_KEY,
 };

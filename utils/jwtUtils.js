@@ -1,5 +1,4 @@
-const jwt = require('jsonwebtoken');
-const config = require('./config');
+const firebaseAdmin = require('./firebaseConfig');
 const User = require('../models/user');
 
 const getReqAuthToken = (req) => {
@@ -13,18 +12,29 @@ const getReqAuthToken = (req) => {
 };
 
 /**
- * Verify the input jwt token.
+ * Verify the input jwt Authorisation bearer token.
  * Returns null if invalid/missing token or the user id in the payload is not found in database.
- * If the token is valid and the user id is valid, returns the decoded token.
- * @param {String} authToken The jwt user token
+ * If checkDatabase parameter is set to true, there is
+ * additional check whether the firebase user id is in database.
+ * @param {String} authToken The jwt Authorisation bearer token
+ * @param {Boolean} checkDatabase Whether to check database if
+ * the firebase user id is present in the database.
  */
-const verifyAuthToken = async (authToken) => {
-  const decodedAuthToken = !authToken
-    ? null
-    : jwt.verify(authToken, config.JWT_SECRET);
+const verifyAuthToken = async (authToken, checkDatabase) => {
+  // Return null, it is missing token
+  if (!authToken) {
+    return null;
+  }
 
-  // Return null, it is an invalid token or the user id is not found in database.
-  if (!authToken || !(await User.findById(decodedAuthToken.id))) {
+  const decodedAuthToken = await firebaseAdmin
+    .auth()
+    .verifyIdToken(authToken, true);
+
+  const user = await User.findOne({ firebaseUid: decodedAuthToken.uid });
+
+  // If the checkDatabase parameter is set to true
+  // and the user id is not found in database, return null.
+  if (checkDatabase && !user) {
     return null;
   }
 

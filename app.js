@@ -10,8 +10,8 @@ const usersRouter = require('./routes/api/users');
 
 const middleware = require('./utils/middleware');
 const logger = require('./utils/logger');
-const loginRouter = require('./routes/api/auth');
-const softwaresRouter = require('./routes/api/softwares');
+const authRouter = require('./routes/api/auth');
+const softwareRouter = require('./routes/api/software');
 
 const app = express();
 
@@ -59,8 +59,8 @@ app.use(
 // Routes
 app.use(rootRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/auth', loginRouter);
-app.use('/api/softwares', softwaresRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/software', softwareRouter);
 
 app.use(middleware.unknownEndPoint);
 app.use(middleware.errorHandler);

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - db-data:/data/db
+
+  app:
+    depends_on:
+      - mongo
+    build:
+      context: '${GITHUB_WORKSPACE}'
+      dockerfile: Dockerfile-ci
+    environment:
+      - TEST_FIREBASE_CLIENT_API_KEY=${TEST_FIREBASE_CLIENT_API_KEY}
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+    ports:
+      - 8080:8080
+    command: 'npm run test-ci'
+
+volumes:
+  db-data:
