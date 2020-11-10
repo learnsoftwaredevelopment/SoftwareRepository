@@ -22,5 +22,13 @@ jobs:
       - name: docker layer caching
         uses: satackey/action-docker-layer-caching@v0.0.8
         continue-on-error: true
+      - name: descrypt firebase secret
+        run: ./.github/scripts/decrypt_firebase_secret.sh
+        env:
+          DECRYPTION_PASSPHRASE: ${{ secrets.DECRYPTION_PASSPHRASE }}
       - name: Run test in container
-        run: docker-compose --file docker-compose-test-ci.yml up --build --exit-code-from app
+        shell: bash
+        env:
+          TEST_FIREBASE_CLIENT_API_KEY: ${{ secrets.TEST_FIREBASE_CLIENT_API_KEY }}
+          GOOGLE_APPLICATION_CREDENTIALS: ./.github/ci/firebase.gpg
+        run: docker-compose --file ./.github/ci/docker-compose-test.yml up --build --exit-code-from app

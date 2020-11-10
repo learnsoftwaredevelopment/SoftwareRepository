@@ -142,7 +142,7 @@ describe('Software Controller', () => {
 
 describe('Software Controller', () => {
   describe('POST request to /api/software/', () => {
-    test('When missing Authorisation token, return with status 401 with json Missing or Invalid Token error message, no change in the number of softwares in database', async () => {
+    test('When missing Authorisation token, return with status 401 with json Missing Token error message, no change in the number of softwares in database', async () => {
       const initialSoftwareInDb = await databaseSetup.softwareInDb();
 
       const softwareToAdd = {
@@ -170,7 +170,7 @@ describe('Software Controller', () => {
       expect(response.body.error).toBe('Missing Token');
     });
 
-    test('When invalid Authorisation token, return with status 401 with json Token missing or invalid error message, no change in the number of softwares in database', async () => {
+    test('When invalid Authorisation token, return with status 401 with json Invalid Token error message, no change in the number of softwares in database', async () => {
       const initialSoftwareInDb = await databaseSetup.softwareInDb();
 
       const softwareToAdd = {

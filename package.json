@@ -9,6 +9,7 @@
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "test-debug": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
     "test-coverage": "cross-env CI=true npm test -- --coverage",
+    "test-ci": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit",
     "lint": "eslint .  --fix"
   },
   "repository": {

@@ -16,7 +16,7 @@ RUN npm install
 
 # After the dependencies are installed, I copy over the source code of the web application to the current working directory.
 # Note: In this case, I add .dockerignore file (similar to .gitignore) and add node_modules to the .dockerignore file so that my local node_modules directory will not be copied to the container's working directory.
-COPY . .
+COPY [".", "${HOME}/secrets", "./"]
 
 # The container environmental variables.
 ENV PORT=8080
