@@ -14,7 +14,7 @@ services:
     depends_on:
       - mongo
     build:
-      context: '.github/ci'
+      context: './'
       dockerfile: Dockerfile-ci
     environment:
       - TEST_FIREBASE_CLIENT_API_KEY=${TEST_FIREBASE_CLIENT_API_KEY}
