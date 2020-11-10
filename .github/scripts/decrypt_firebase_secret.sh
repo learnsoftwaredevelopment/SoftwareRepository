@@ -4,4 +4,4 @@
 
 # Create the environment and decrypt the file
 mkdir $HOME/secrets
-gpg --quiet --batch --yes --decrypt --passphrase="$DECRYPTION_PASSPHRASE" --output ./.github/ci/firebase_secret.json ./.github/ci/firebase.gpg
+gpg --quiet --batch --yes --decrypt --passphrase="$DECRYPTION_PASSPHRASE" --output firebase_secret.json ./.github/ci/firebase.gpg
