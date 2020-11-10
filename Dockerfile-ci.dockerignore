@@ -1,0 +1,16 @@
+node_modules/
+.git/
+requests/
+coverage/
+build/
+
+.*
+*.md
+# tests*
+docker-compose.yml
+
+
+# To ignore .env
+.env
+
+!.github/ci
