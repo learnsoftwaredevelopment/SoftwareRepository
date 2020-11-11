@@ -1,6 +1,6 @@
 const User = require('../../models/user');
 const Software = require('../../models/software');
-const firebaseTestUtils = require('./firebaseTestUtils');
+const firebaseTestUtils = require('../../utils/firebaseUtils');
 const firebaseAdmin = require('../../utils/firebaseConfig');
 
 const resetDatabase = async () => {

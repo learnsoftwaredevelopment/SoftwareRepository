@@ -19,11 +19,12 @@ RUN npm install
 COPY . .
 
 # The container environmental variables.
+# Note: The environmental variables with prefix 'TEST_' are used when running tests.
 ENV PORT=8080
 ENV MONGODB_URI=mongodb://root:password@mongo:27017/softwareRepository?authSource=admin
+ENV GOOGLE_APPLICATION_CREDENTIALS=YOUR_GOOGLE_SERVICE_ACCOUNT_FILE_PATH
 ENV TEST_MONGODB_URI=mongodb://root:password@mongo:27017/softwareRepositoryTest?authSource=admin
 ENV TEST_FIREBASE_CLIENT_API_KEY=YOUR_TEST_FIREBASE_CLIENT_API_KEY
-ENV GOOGLE_APPLICATION_CREDENTIALS=YOUR_GOOGLE_SERVICE_ACCOUNT_FILE_PATH
 
 # The container listens on port 8080.
 EXPOSE 8080

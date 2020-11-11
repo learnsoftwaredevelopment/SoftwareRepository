@@ -22,7 +22,7 @@ It also serves as my personal project to learn web development and testing.
 
 ### Testing
 
-- The users API endpoint Testing: [users.test.js](https://github.com/learnsoftwaredevelopment/SoftwareRepository/blob/master/tests/api/users/users.test.js)
+- The users API endpoint Testing: [users.test.js](https://github.com/learnsoftwaredevelopment/SoftwareRepository/blob/master/tests/api/users.test.js)
 
 ## Getting Started
 
@@ -35,9 +35,9 @@ Sample `.env` file
 ```Shell
 PORT=<YOUR_PORT>
 MONGODB_URI=<YOUR_MONGODB_URI>
+GOOGLE_APPLICATION_CREDENTIALS=<PATH_TO_GOOGLE_SERVICE ACCOUNT_JSON_FILE>
 TEST_MONGODB_URI=<YOUR_MONGODB_TEST_ENVIRONMENT_URI>
-BCRYPT_SALT_ROUNDS=<BCRYPT_SALT_ROUNDS>
-JWT_SECRET=<YOUR_JWT_SECRET>
+TEST_FIREBASE_CLIENT_API_KEY=<YOUR_FIREBASE_CLIENT_API_KEY>
 ```
 
 **Note:** Please ensure that you key in all your desired values for the respective fields in the `.env` files.
@@ -62,10 +62,12 @@ To be Added.
 
 ```Dockerfile
 # The container environmental variables.
+# Note: The environmental variables with prefix 'TEST_' are used when running tests.
 ENV PORT=8080
 ENV MONGODB_URI=YOUR_MONGODB_URI
-ENV BCRYPT_SALT_ROUNDS=YOUR_BCRYPT_SALT_ROUNDS
-ENV JWT_SECRET=YOUR_JWT_SECRET
+ENV GOOGLE_APPLICATION_CREDENTIALS=YOUR_GOOGLE_SERVICE_ACCOUNT_FILE_PATH
+ENV TEST_MONGODB_URI=YOUR_TEST_MONGODB_URI
+ENV TEST_FIREBASE_CLIENT_API_KEY=YOUR_TEST_FIREBASE_CLIENT_API_KEY
 
 # The container listens on port 8080.
 EXPOSE 8080
@@ -81,7 +83,9 @@ EXPOSE 8080
 
 6. After the docker image has been built, run the container using `docker run -p 8080:8080 software_repository:latest`
 
-**Note:** In Step 6, the `PORT` environment value and `EXPOSE` value are assumed to be `8080`.
+7. If all the environmental variables are configured correctly, by default, the **Software Repository** App can be accessed via http://localhost:8080
+
+**Note:** In Step 6 and 7, the `PORT` environment variable and `EXPOSE` value are assumed to be `8080`.
 
 ## Instructions to run the multi container setup using Docker Compose
 
@@ -91,15 +95,37 @@ Services included in the multi container setup in `docker-compose.yml`:
 - MongoDB (database)
 - Mongo Express (Web based MongoDB Admin Interface for database management)
 
-**Prerequisite:** The `Dockerfile` has been configured. If not, please follow the instructions in [Instructions to Configure, Build and Run Docker Image](#instructions-to-configure-build-and-run-docker-image).
+1. Open the `docker-compose.yml` and edit the environmental variables (`environment` key) and the exposed ports (`ports` key) in the format (`HOST:CONTAINER`) with your desired values.
 
-1. In the **Software Repository**'s working directory, run the multi container setup using `docker-compose up --build` or `docker-compose up -d --build` (detached mode).
+```yml
+app:
+    depends_on:
+      - mongo
+    build: .
+    ports:
+      - 8080:8080
+    # The app service's environmental variables.
+    # Note: The environmental variables with prefix 'TEST_' are used when running tests.
+    environment:
+      PORT: 8080
+      MONGODB_URI: mongodb://root:password@mongo:27017/softwareRepository?authSource=admin
+      GOOGLE_APPLICATION_CREDENTIALS: YOUR_GOOGLE_SERVICE_ACCOUNT_FILE_PATH
+      TEST_MONGODB_URI: mongodb://root:password@mongo:27017/softwareRepositoryTest?authSource=admin
+      TEST_FIREBASE_CLIENT_API_KEY: YOUR_TEST_FIREBASE_CLIENT_API_KEY
+    command: "npm start"
+```
 
-2. To access the **Software Repository** App, go to [http://localhost:8080](http://localhost:8080).
+**Note** The environmental variables set in `docker-compose.yml` for the `app` service takes precedence over those set in the `Dockerfile`. (Read more in [Docker's documentation](https://docs.docker.com/compose/environment-variables/#the-env-file))
 
-**Note:** Assuming `PORT` environmental variable is not changed in Step 2 of [ Instructions to Configure, Build and Run Docker Image](#instructions-to-configure-build-and-run-docker-image).
+2. Save the changes made to `docker-compose.yml`.
 
-3. (Optional) To access the Mongo Express interface, go to [http://localhost:8081](http://localhost:8081).
+3. In the **Software Repository**'s working directory, run the multi container setup using `docker-compose up --build` or `docker-compose up -d --build` (detached mode).
+
+4. To access the **Software Repository** App, go to [http://localhost:8080](http://localhost:8080).
+
+**Note:** Assuming `ports` key and `PORT` environmental variable are not changed in Step 1.
+
+5. (Optional) To access the Mongo Express interface, go to [http://localhost:8081](http://localhost:8081).
 
 ## Documentation
 
@@ -117,6 +143,7 @@ A list of the technologies and frameworks used in this project
 
 - Node.js (Node 12)
 - MongoDB
+- Firebase Authentication
 
 ### General Frameworks used
 
