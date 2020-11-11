@@ -1,3 +1,11 @@
+/**
+ * Not tested as it was based on custom JWT Authentication
+ * before the migration to firebase Authentication.
+ *
+ * The current implementation of the Auth API endpoint is
+ * a wrapper of the firebase Authentication Rest API.
+ */
+
 const supertest = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../../../../app');

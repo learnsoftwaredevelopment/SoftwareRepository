@@ -1,61 +1,52 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const User = require('../../models/user');
+const axios = require('axios');
 const config = require('../../utils/config');
-const { getReqAuthToken, verifyAuthToken } = require('../../utils/jwtUtils');
+const firebaseUtils = require('../../utils/firebaseUtils');
 
-const postAuth = async (req, res) => {
-  const { body } = req;
+const postLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const { idToken, refreshToken, uid } = await firebaseUtils.loginFireBase(
+      email,
+      password,
+    );
 
-  // Return the user before update so can view last login.
-  const user = await User.findOneAndUpdate(
-    { username: body.username },
-    {
-      'meta.lastLogin': Date.now(),
-    },
-  );
-
-  const passwordCorrect = user === null
-    ? false
-    : await bcrypt.compare(body.password, user.passwordHash);
-
-  if (!(user && passwordCorrect)) {
-    return res.status('401').json({
-      error: 'Invalid username and/or password.',
+    return res.status(200).json({
+      idToken,
+      refreshToken,
+      uid,
+    });
+  } catch (err) {
+    res.status(err.response.data.error.code).json({
+      error: err.response.data.error.message,
     });
   }
-
-  const userTokenPayload = {
-    username: user.username,
-    id: user._id,
-  };
-
-  const token = jwt.sign(userTokenPayload, config.JWT_SECRET);
-
-  return res.status(200).json({
-    token,
-    username: user.username,
-    name: user.name,
-    lastLogin: user.meta.lastLogin,
-  });
 };
 
-const getAuth = async (req, res) => {
-  const token = getReqAuthToken(req);
-  const decodedToken = await verifyAuthToken(token);
+const postRefreshToken = async (req, res) => {
+  const { refreshToken } = req.body;
 
-  if (!decodedToken) {
-    return res.status(401).json({
-      error: 'Missing or Invalid Token',
+  try {
+    const response = await axios.post(
+      `https://securetoken.googleapis.com/v1/token?key=${config.TEST_FIREBASE_CLIENT_API_KEY}`,
+      `grant_type=refresh_token&refresh_token=${refreshToken}`,
+      {
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      },
+    );
+
+    return res.status(200).json({
+      idToken: response.data.id_token,
+      refreshToken: response.data.refresh_token,
+      uid: response.data.user_id,
+    });
+  } catch (err) {
+    res.status(err.response.data.error.code).json({
+      error: err.response.data.error.message,
     });
   }
-
-  return res.status(200).json({
-    ...decodedToken,
-  });
 };
 
 module.exports = {
-  postAuth,
-  getAuth,
+  postLogin,
+  postRefreshToken,
 };

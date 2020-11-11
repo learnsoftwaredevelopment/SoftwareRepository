@@ -1,5 +1,5 @@
 const axios = require('axios');
-const config = require('../../utils/config');
+const config = require('./config');
 
 const loginFireBase = async (email, password) => {
   const response = await axios.post(
@@ -9,6 +9,7 @@ const loginFireBase = async (email, password) => {
 
   return {
     idToken: response.data.idToken,
+    refreshToken: response.data.refreshToken,
     uid: response.data.localId,
   };
 };

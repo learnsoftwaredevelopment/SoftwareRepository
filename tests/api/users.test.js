@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = require('../../app');
 const databaseSetup = require('../utils/databaseSetup');
 const usersTestUtils = require('../utils/api/usersTestUtils');
-const firebaseTestUtils = require('../utils/firebaseTestUtils');
+const firebaseUtils = require('../../utils/firebaseUtils');
 
 const api = supertest(app);
 
@@ -81,7 +81,7 @@ describe('Users Controller', () => {
   describe('POST request to /api/users/', () => {
     test('(Test one mongodb buildin validator) When username is missing, return json with error missing username message', async () => {
       const { email, password } = usersTestUtils.sampleUserCredential1;
-      const { idToken } = await firebaseTestUtils.loginFireBase(
+      const { idToken } = await firebaseUtils.loginFireBase(
         email,
         password,
       );
@@ -107,7 +107,7 @@ describe('Users Controller', () => {
 
     test('(Test one mongodb buildin validator) When username is less than 6 characters long , return json with error the username should be at least 6 characters long', async () => {
       const { email, password } = usersTestUtils.sampleUserCredential1;
-      const { idToken } = await firebaseTestUtils.loginFireBase(
+      const { idToken } = await firebaseUtils.loginFireBase(
         email,
         password,
       );
@@ -135,7 +135,7 @@ describe('Users Controller', () => {
 
     test('(Test custom validator) When username is containing unsupported characters like spaces, return json with error A valid username is required message', async () => {
       const { email, password } = usersTestUtils.sampleUserCredential1;
-      const { idToken } = await firebaseTestUtils.loginFireBase(
+      const { idToken } = await firebaseUtils.loginFireBase(
         email,
         password,
       );
@@ -167,7 +167,7 @@ describe('Users Controller', () => {
 
   test("(Test unique validator) When username ('sample') already exists in database, return json with error username must be unique. message", async () => {
     const { email, password } = usersTestUtils.sampleUserCredential2;
-    const { idToken } = await firebaseTestUtils.loginFireBase(email, password);
+    const { idToken } = await firebaseUtils.loginFireBase(email, password);
 
     const reqBody = {
       username: 'Sample',
@@ -197,7 +197,7 @@ describe('Users Controller', () => {
 
   test("(Test multiple unique validators) When email ('sample@example.com') and firebase uid already exists in database, return json with error email must be unique. and firebaseUid must be unique messages", async () => {
     const { email, password } = usersTestUtils.sampleUserCredential1;
-    const { idToken } = await firebaseTestUtils.loginFireBase(email, password);
+    const { idToken } = await firebaseUtils.loginFireBase(email, password);
 
     const reqBody = {
       username: 'Sample2',
@@ -228,7 +228,7 @@ describe('Users Controller', () => {
 
   test('When request is valid, number of users in database increment by 1', async () => {
     const { email, password } = usersTestUtils.sampleUserCredential1;
-    const { idToken, uid } = await firebaseTestUtils.loginFireBase(
+    const { idToken, uid } = await firebaseUtils.loginFireBase(
       email,
       password,
     );

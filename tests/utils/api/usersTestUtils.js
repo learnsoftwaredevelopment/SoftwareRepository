@@ -1,5 +1,5 @@
 const User = require('../../../models/user');
-const { loginFireBase } = require('../firebaseTestUtils');
+const { loginFireBase } = require('../../../utils/firebaseUtils');
 
 const sampleUserInDb1 = {
   username: 'Sample',

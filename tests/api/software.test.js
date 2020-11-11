@@ -4,7 +4,7 @@ const app = require('../../app');
 const databaseSetup = require('../utils/databaseSetup');
 const usersTestUtils = require('../utils/api/usersTestUtils');
 const softwareTestUtils = require('../utils/api/softwareTestUtils');
-const firebaseTestUtils = require('../utils/firebaseTestUtils');
+const firebaseUtils = require('../../utils/firebaseUtils');
 
 const api = supertest(app);
 
@@ -201,7 +201,7 @@ describe('Software Controller', () => {
 
     test('When request is valid, number of softwares in database increments by 1', async () => {
       const { email, password } = usersTestUtils.sampleUserCredential1;
-      const { idToken } = await firebaseTestUtils.loginFireBase(
+      const { idToken } = await firebaseUtils.loginFireBase(
         email,
         password,
       );
