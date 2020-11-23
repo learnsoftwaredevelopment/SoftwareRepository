@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const { isEmail, normalizeEmail } = require('validator');
+const { ALLOWED_USERNAME_REGEX } = require('../utils/config');
 
-const usernameRegex = RegExp('^[a-z0-9_.-]+$');
+const usernameRegex = RegExp(ALLOWED_USERNAME_REGEX);
 
 const userSchema = new mongoose.Schema(
   {
