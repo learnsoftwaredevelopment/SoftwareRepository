@@ -79,12 +79,28 @@ describe('Users Controller', () => {
    * are handled by firebase Authentication
    */
   describe('POST request to /api/users/', () => {
+    test('When missing Authorization token, return with status 401 with json Missing Token error message, no change in the number of users in database', async () => {
+      const reqBody = {
+        username: 'Sample',
+      };
+
+      const initialUsersInDb = await databaseSetup.usersInDb();
+
+      const response = await api
+        .post('/api/users/')
+        .send(reqBody)
+        .expect(401)
+        .expect('Content-Type', /application\/json/);
+
+      const usersInDb = await databaseSetup.usersInDb();
+
+      expect(usersInDb).toHaveLength(initialUsersInDb.length);
+      expect(response.body.error).toEqual('Missing Token');
+    });
+
     test('(Test one mongodb buildin validator) When username is missing, return json with error missing username message', async () => {
       const { email, password } = usersTestUtils.sampleUserCredential1;
-      const { idToken } = await firebaseUtils.loginFireBase(
-        email,
-        password,
-      );
+      const { idToken } = await firebaseUtils.loginFireBase(email, password);
 
       const reqBody = {};
 
@@ -105,40 +121,9 @@ describe('Users Controller', () => {
       });
     });
 
-    test('(Test one mongodb buildin validator) When username is less than 6 characters long , return json with error the username should be at least 6 characters long', async () => {
-      const { email, password } = usersTestUtils.sampleUserCredential1;
-      const { idToken } = await firebaseUtils.loginFireBase(
-        email,
-        password,
-      );
-
-      const reqBody = {
-        username: '123',
-      };
-
-      const initialUsersInDb = await databaseSetup.usersInDb();
-
-      const response = await api
-        .post('/api/users/')
-        .set('Authorization', `bearer ${idToken}`)
-        .send(reqBody)
-        .expect(400)
-        .expect('Content-Type', /application\/json/);
-
-      const usersInDb = await databaseSetup.usersInDb();
-
-      expect(usersInDb).toHaveLength(initialUsersInDb.length);
-      expect(response.body.error).toEqual({
-        username: 'The username should be at least 6 characters long',
-      });
-    });
-
     test('(Test custom validator) When username is containing unsupported characters like spaces, return json with error A valid username is required message', async () => {
       const { email, password } = usersTestUtils.sampleUserCredential1;
-      const { idToken } = await firebaseUtils.loginFireBase(
-        email,
-        password,
-      );
+      const { idToken } = await firebaseUtils.loginFireBase(email, password);
 
       const reqBody = {
         username: 'Sample username',
@@ -228,10 +213,7 @@ describe('Users Controller', () => {
 
   test('When request is valid, number of users in database increment by 1', async () => {
     const { email, password } = usersTestUtils.sampleUserCredential1;
-    const { idToken, uid } = await firebaseUtils.loginFireBase(
-      email,
-      password,
-    );
+    const { idToken, uid } = await firebaseUtils.loginFireBase(email, password);
 
     const reqBody = {
       username: 'Sample',

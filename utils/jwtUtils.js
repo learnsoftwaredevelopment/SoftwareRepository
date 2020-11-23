@@ -13,7 +13,7 @@ const getReqAuthToken = (req) => {
 
 /**
  * Verify the input jwt Authorisation bearer token.
- * Returns null if invalid/missing token or the user id in the payload is not found in database.
+ * Returns null if missing token or the user id in the payload is not found in database.
  * If checkDatabase parameter is set to true, there is
  * additional check whether the firebase user id is in database.
  * @param {String} authToken The jwt Authorisation bearer token

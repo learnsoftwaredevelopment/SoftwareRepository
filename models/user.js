@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       required: [true, 'Missing username'],
-      minlength: [6, 'The username should be at least 6 characters long'],
       unique: true,
       lowercase: true,
       trim: true,
