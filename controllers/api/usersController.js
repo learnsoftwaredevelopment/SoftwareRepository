@@ -1,7 +1,7 @@
 const User = require('../../models/user');
 const firebaseAdmin = require('../../utils/firebaseConfig');
 const jwtUtils = require('../../utils/jwtUtils');
-const { ALLOWED_USERNAME_REGEX } = require('../../utils/config');
+const { checkUsernameValidity } = require('../../utils/api/usersUtils');
 
 const getUsers = async (req, res) => {
   const users = await User.find({})
@@ -32,7 +32,7 @@ const postUsers = async (req, res) => {
   const userRecord = response.toJSON();
 
   const user = new User({
-    username: !username ? null : username.trim(),
+    username: !username ? null : username,
     name: userRecord.displayName,
     email: userRecord.email,
     firebaseUid: userRecord.uid,
@@ -43,29 +43,31 @@ const postUsers = async (req, res) => {
   // Set custom claim with backend user id (different from firebase user id)
   await firebaseAdmin.auth().setCustomUserClaims(decodedToken.uid, {
     backendId: savedUser.id,
-    username,
+    username: savedUser.username,
   });
 
   return res.status(201).json(savedUser);
 };
 
-const getUserAvailability = async (req, res) => {
+const postUserAvailability = async (req, res) => {
   const { username } = req.body;
 
-  const formattedUsername = username.toLowerCase();
+  if (!username) {
+    return res.status(400).json({
+      error: 'Missing username in request.',
+    });
+  }
 
-  const checkUsernamePattern = RegExp(ALLOWED_USERNAME_REGEX).test(
-    formattedUsername,
-  );
+  const isValidUsername = checkUsernameValidity(username);
 
-  if (!checkUsernamePattern) {
+  if (!isValidUsername) {
     return res.status(400).json({
       error: 'Invalid username.',
     });
   }
 
   const response = await User.findOne({
-    username: formattedUsername,
+    username,
   }).lean();
 
   return res.json({
@@ -76,5 +78,5 @@ const getUserAvailability = async (req, res) => {
 module.exports = {
   getUsers,
   postUsers,
-  getUserAvailability,
+  postUserAvailability,
 };

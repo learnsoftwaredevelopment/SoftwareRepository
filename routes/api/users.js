@@ -5,6 +5,6 @@ usersRouter.get('/', usersController.getUsers);
 
 usersRouter.post('/', usersController.postUsers);
 
-usersRouter.post('/check', usersController.getUserAvailability);
+usersRouter.post('/check', usersController.postUserAvailability);
 
 module.exports = usersRouter;

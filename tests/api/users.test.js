@@ -244,6 +244,92 @@ describe('Users Controller', () => {
   });
 });
 
+describe('POST request to /api/users/check', () => {
+  test('When username is not present in request, returns status 400 and json with error Missing username in request. message', async () => {
+    const reqBody = {};
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.error).toBe('Missing username in request.');
+  });
+
+  test('(Test edge cases for invalid username pattern) When username is blank, return status 400 and json with error Missing username in request. message', async () => {
+    const reqBody = {
+      username: '',
+    };
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.error).toBe('Missing username in request.');
+  });
+
+  test('(Test edge cases for invalid username pattern) When username only contains a whitespace, return status 400 and json with error Invalid username. message', async () => {
+    const reqBody = {
+      username: ' ',
+    };
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.error).toBe('Invalid username.');
+  });
+
+  test('(Test edge cases for invalid username pattern) When username contains invalid characters besides whitespace, return status 400 and json with error Invalid username. message', async () => {
+    const reqBody = {
+      username: 'Sample+',
+    };
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.error).toBe('Invalid username.');
+  });
+
+  test('(Test valid username) When request is valid and username is available, return status 200 and json with usernameStatus value set to Available message', async () => {
+    const reqBody = {
+      username: 'Sample3',
+    };
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.usernameStatus).toBe('Available');
+  });
+
+  test('(Test valid username) When request is valid and username is already in use, return status 200 and json with usernameStatus value set to Not Available message', async () => {
+    const reqBody = {
+      username: 'Sample',
+    };
+
+    await usersTestUtils.addUserToDb(usersTestUtils.sampleUserCredential1);
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.usernameStatus).toBe('Not Available');
+  });
+});
+
 afterAll(async () => {
   await databaseSetup.resetDatabase();
   await mongoose.connection.close();
