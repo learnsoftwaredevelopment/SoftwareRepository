@@ -79,7 +79,7 @@ describe('Users Controller', () => {
    * are handled by firebase Authentication
    */
   describe('POST request to /api/users/', () => {
-    test('When missing Authorization token, return with status 401 with json Missing Token error message, no change in the number of users in database', async () => {
+    test('When missing Authorization token, return with status 401 with json Missing/Invalid Token error message, no change in the number of users in database', async () => {
       const reqBody = {
         username: 'Sample',
       };
@@ -95,7 +95,7 @@ describe('Users Controller', () => {
       const usersInDb = await databaseSetup.usersInDb();
 
       expect(usersInDb).toHaveLength(initialUsersInDb.length);
-      expect(response.body.error).toEqual('Missing Token');
+      expect(response.body.error).toEqual('Missing/Invalid Token');
     });
 
     test('(Test one mongodb buildin validator) When username is missing, return json with error missing username message', async () => {

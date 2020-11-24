@@ -23,7 +23,12 @@ const setBackendIdOfDefaultUser = async (userCredential, backendId) => {
   const { uid } = await firebaseTestUtils.loginFireBase(email, password);
 
   // Set custom claim with backend user id (different from firebase user id)
-  await firebaseAdmin.auth().setCustomUserClaims(uid, { backendId });
+  await firebaseAdmin
+    .auth()
+    .setCustomUserClaims(uid, {
+      backendId,
+      username: userCredential.username.toLowerCase(),
+    });
 };
 
 module.exports = {

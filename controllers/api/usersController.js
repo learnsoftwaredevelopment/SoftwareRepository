@@ -23,7 +23,7 @@ const postUsers = async (req, res) => {
 
   if (!decodedToken) {
     return res.status(401).json({
-      error: 'Missing Token',
+      error: 'Missing/Invalid Token',
     });
   }
 
