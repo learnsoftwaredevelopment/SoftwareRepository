@@ -22,7 +22,7 @@ services:
       PORT: 8080
       MONGODB_URI: mongodb://root:password@mongo:27017/softwareRepository?authSource=admin
       TEST_MONGODB_URI: mongodb://root:password@mongo:27017/softwareRepositoryTest?authSource=admin
-      TEST_FIREBASE_CLIENT_API_KEY: ${TEST_FIREBASE_CLIENT_API_KEY}
+      FIREBASE_CLIENT_API_KEY: ${FIREBASE_CLIENT_API_KEY}
       # Your firebase service account information
       FIREBASE_ADMIN_SA_TYPE: ${FIREBASE_ADMIN_SA_TYPE}
       FIREBASE_ADMIN_SA_PROJECT_ID: ${FIREBASE_ADMIN_SA_PROJECT_ID}

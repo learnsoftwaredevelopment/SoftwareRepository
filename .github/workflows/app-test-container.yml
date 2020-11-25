@@ -25,7 +25,7 @@ jobs:
       - name: Run test in container
         shell: bash
         env:
-          TEST_FIREBASE_CLIENT_API_KEY: ${{ secrets.TEST_FIREBASE_CLIENT_API_KEY }}
+          FIREBASE_CLIENT_API_KEY: ${{ secrets.FIREBASE_CLIENT_API_KEY }}
           # Your firebase service account information
           FIREBASE_ADMIN_SA_TYPE: ${{ secrets.FIREBASE_ADMIN_SA_TYPE }}
           FIREBASE_ADMIN_SA_PROJECT_ID: ${{ secrets.FIREBASE_ADMIN_SA_PROJECT_ID }}
