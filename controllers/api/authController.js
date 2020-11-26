@@ -27,7 +27,7 @@ const postRefreshToken = async (req, res) => {
 
   try {
     const response = await axios.post(
-      `https://securetoken.googleapis.com/v1/token?key=${config.TEST_FIREBASE_CLIENT_API_KEY}`,
+      `https://securetoken.googleapis.com/v1/token?key=${config.FIREBASE_CLIENT_API_KEY}`,
       `grant_type=refresh_token&refresh_token=${refreshToken}`,
       {
         headers: { 'content-type': 'application/x-www-form-urlencoded' },

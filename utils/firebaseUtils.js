@@ -3,7 +3,7 @@ const config = require('./config');
 
 const loginFireBase = async (email, password) => {
   const response = await axios.post(
-    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${config.TEST_FIREBASE_CLIENT_API_KEY}`,
+    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${config.FIREBASE_CLIENT_API_KEY}`,
     { email, password, returnSecureToken: true },
   );
 

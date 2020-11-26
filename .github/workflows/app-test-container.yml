@@ -22,13 +22,19 @@ jobs:
       - name: docker layer caching
         uses: satackey/action-docker-layer-caching@v0.0.8
         continue-on-error: true
-      - name: descrypt firebase secret
-        run: ./.github/scripts/decrypt_firebase_secret.sh
-        env:
-          DECRYPTION_PASSPHRASE: ${{ secrets.DECRYPTION_PASSPHRASE }}
       - name: Run test in container
         shell: bash
         env:
-          TEST_FIREBASE_CLIENT_API_KEY: ${{ secrets.TEST_FIREBASE_CLIENT_API_KEY }}
-          GOOGLE_APPLICATION_CREDENTIALS: ./firebase_secret.json
+          FIREBASE_CLIENT_API_KEY: ${{ secrets.FIREBASE_CLIENT_API_KEY }}
+          # Your firebase service account information
+          FIREBASE_ADMIN_SA_TYPE: ${{ secrets.FIREBASE_ADMIN_SA_TYPE }}
+          FIREBASE_ADMIN_SA_PROJECT_ID: ${{ secrets.FIREBASE_ADMIN_SA_PROJECT_ID }}
+          FIREBASE_ADMIN_SA_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_ADMIN_SA_PRIVATE_KEY_ID }}
+          FIREBASE_ADMIN_SA_PRIVATE_KEY: ${{ secrets.FIREBASE_ADMIN_SA_PRIVATE_KEY }}
+          FIREBASE_ADMIN_SA_CLIENT_EMAIL: ${{ secrets.FIREBASE_ADMIN_SA_CLIENT_EMAIL }}
+          FIREBASE_ADMIN_SA_CLIENT_ID: ${{ secrets.FIREBASE_ADMIN_SA_CLIENT_ID }}
+          FIREBASE_ADMIN_SA_AUTH_URI: ${{ secrets.FIREBASE_ADMIN_SA_AUTH_URI }}
+          FIREBASE_ADMIN_SA_TOKEN_URI: ${{ secrets.FIREBASE_ADMIN_SA_TOKEN_URI }}
+          FIREBASE_ADMIN_SA_AUTH_PROVIDER_X509_CERT_URL: ${{ secrets.FIREBASE_ADMIN_SA_AUTH_PROVIDER_X509_CERT_URL}}
+          FIREBASE_ADMIN_SA_CLIENT_X509_CERT_URL: ${{ secrets.FIREBASE_ADMIN_SA_CLIENT_X509_CERT_URL}}
         run: docker-compose --file ./.github/ci/docker-compose-test-ci.yml up --build --exit-code-from app
