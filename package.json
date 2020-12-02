@@ -34,7 +34,7 @@
   "dependencies": {
     "axios": "^0.21.0",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.2",
+    "cross-env": "^7.0.3",
     "dot-object": "^2.1.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
