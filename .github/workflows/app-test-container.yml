@@ -20,7 +20,7 @@ jobs:
       - name: docker-compose pull
         run: docker-compose pull
       - name: docker layer caching
-        uses: satackey/action-docker-layer-caching@v0.0.8
+        uses: satackey/action-docker-layer-caching@v0.0.10
         continue-on-error: true
       - name: Run test in container
         shell: bash
