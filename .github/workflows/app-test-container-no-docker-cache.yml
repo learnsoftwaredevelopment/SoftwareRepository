@@ -1,0 +1,40 @@
+name: App Container CI (With docker caching disabled)
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 18
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2.3.4
+      # Pull the latest image to build, and avoid caching pull-only images.
+      # (docker pull is faster than caching in most cases.)
+      - name: docker-compose pull
+        run: docker-compose pull
+      # - name: docker layer caching
+      #   uses: satackey/action-docker-layer-caching@v0.0.11
+      #   continue-on-error: true
+      - name: Run test in container
+        shell: bash
+        env:
+          FIREBASE_CLIENT_API_KEY: ${{ secrets.FIREBASE_CLIENT_API_KEY }}
+          # Your firebase service account information
+          FIREBASE_ADMIN_SA_TYPE: ${{ secrets.FIREBASE_ADMIN_SA_TYPE }}
+          FIREBASE_ADMIN_SA_PROJECT_ID: ${{ secrets.FIREBASE_ADMIN_SA_PROJECT_ID }}
+          FIREBASE_ADMIN_SA_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_ADMIN_SA_PRIVATE_KEY_ID }}
+          FIREBASE_ADMIN_SA_PRIVATE_KEY: ${{ secrets.FIREBASE_ADMIN_SA_PRIVATE_KEY }}
+          FIREBASE_ADMIN_SA_CLIENT_EMAIL: ${{ secrets.FIREBASE_ADMIN_SA_CLIENT_EMAIL }}
+          FIREBASE_ADMIN_SA_CLIENT_ID: ${{ secrets.FIREBASE_ADMIN_SA_CLIENT_ID }}
+          FIREBASE_ADMIN_SA_AUTH_URI: ${{ secrets.FIREBASE_ADMIN_SA_AUTH_URI }}
+          FIREBASE_ADMIN_SA_TOKEN_URI: ${{ secrets.FIREBASE_ADMIN_SA_TOKEN_URI }}
+          FIREBASE_ADMIN_SA_AUTH_PROVIDER_X509_CERT_URL: ${{ secrets.FIREBASE_ADMIN_SA_AUTH_PROVIDER_X509_CERT_URL}}
+          FIREBASE_ADMIN_SA_CLIENT_X509_CERT_URL: ${{ secrets.FIREBASE_ADMIN_SA_CLIENT_X509_CERT_URL}}
+        run: docker-compose --file ./.github/ci/docker-compose-test-ci.yml up --build --exit-code-from app
