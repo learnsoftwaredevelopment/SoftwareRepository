@@ -28,12 +28,12 @@ jobs:
         (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]') }}
 
     steps:
-      if: ${{ github.event_name != 'pull_request_target' }}
       - name: checkout
+        if: ${{ github.event_name != 'pull_request_target' }}
         uses: actions/checkout@v2.3.4
 
-      if: ${{ github.event_name == 'pull_request_target' }}
       - name: Checkout Pull Request (dependabot[bot] only)
+        if: ${{ github.event_name == 'pull_request_target' }}
         uses: actions/checkout@v2.3.4
         with:
           # Without ref with pull_request_target, it does not actually build the PR, instead it builds the latest changeset from the target repository which is not the intended behaviour. (Reference: https://securitylab.github.com/research/github-actions-preventing-pwn-requests/ [Last example])
