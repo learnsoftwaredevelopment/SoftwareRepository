@@ -24,28 +24,31 @@ jobs:
     # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request_target
     # https://github.com/dependabot/dependabot-core/issues/3253#issuecomment-797125425 (dependabot PM recommended solution)
 
-    if: ${{ (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
-        (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]') }}
+    if:
+      ${{ (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
+      (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]') }}
 
     steps:
       - name: checkout
         if: ${{ github.event_name != 'pull_request_target' }}
         uses: actions/checkout@v2.3.4
 
-      - name: Checkout Pull Request (dependabot[bot] only)
+      - name: checkout Pull Request (dependabot[bot] only)
         if: ${{ github.event_name == 'pull_request_target' }}
         uses: actions/checkout@v2.3.4
         with:
           # Without ref with pull_request_target, it does not actually build the PR, instead it builds the latest changeset from the target repository which is not the intended behaviour. (Reference: https://securitylab.github.com/research/github-actions-preventing-pwn-requests/ [Last example])
-+         ref: ${{ github.event.pull_request.head.sha }}
-+
+          ref: ${{ github.event.pull_request.head.sha }}
+
       # Pull the latest image to build, and avoid caching pull-only images.
       # (docker pull is faster than caching in most cases.)
       - name: docker-compose pull
         run: docker-compose pull
-      # - name: docker layer caching
-      #   uses: satackey/action-docker-layer-caching@v0.0.11
-      #   continue-on-error: true
+
+      - name: docker layer caching
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
       - name: Run test in container
         shell: bash
         env:
