@@ -2,7 +2,7 @@
 # With comments to aid in my learning of docker.
 
 # To use official nodejs base docker image.
-FROM node:12
+FROM node:lts
 
 # The working directory where any subsequent instructions in the Dockerfile will be executed on.
 WORKDIR /app
