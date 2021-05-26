@@ -2,7 +2,7 @@
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/learnsoftwaredevelopment/SoftwareRepository/blob/master/LICENSE)
 ![GitHub Node.js CI](https://github.com/learnsoftwaredevelopment/SoftwareRepository/workflows/Node.js%20CI/badge.svg?branch=master)
-![App Container CI](https://github.com/learnsoftwaredevelopment/SoftwareRepository/actions/workflows/app-test-container-no-docker-cache.yml/badge.svg?branch=master)]
+![App Container CI](https://github.com/learnsoftwaredevelopment/SoftwareRepository/actions/workflows/app-test-container-no-docker-cache.yml/badge.svg?branch=master)
 
 ## Introduction
 
@@ -169,7 +169,7 @@ A list of the technologies and frameworks used in this project
 
 ### Backend Technologies
 
-- Node.js (Node 12)
+- Node.js (Node.js LTS)
 - MongoDB
 - Firebase Authentication
 
