@@ -65,7 +65,7 @@ jobs:
         shell: bash
         run: docker-compose up --file ./.github/ci/docker-compose-test-ci-db-only.yml up --build --detach
       - name: Running test cases
-        run: npm test-ci
+        run: npm run test-ci
         env:
           PORT: ${{ secrets.PORT }}
           TEST_MONGODB_URI: mongodb://root:password@mongo:27017/softwareRepositoryTest?authSource=admin
