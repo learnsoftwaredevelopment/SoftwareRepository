@@ -1,7 +1,7 @@
 # Software Repository (API Backend)
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/learnsoftwaredevelopment/SoftwareRepository/blob/master/LICENSE)
-![GitHub Node.js CI](https://github.com/learnsoftwaredevelopment/SoftwareRepository/workflows/Node.js%20CI/badge.svg?branch=master)
+[![Node.js with docker db CI](https://github.com/learnsoftwaredevelopment/SoftwareRepository/actions/workflows/node.js-with-docker-db.yml/badge.svg)](https://github.com/learnsoftwaredevelopment/SoftwareRepository/actions/workflows/node.js-with-docker-db.yml)
 ![App Container CI](https://github.com/learnsoftwaredevelopment/SoftwareRepository/actions/workflows/app-test-container-no-docker-cache.yml/badge.svg?branch=master)
 
 ## Introduction
