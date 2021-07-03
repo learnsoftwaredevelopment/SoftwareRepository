@@ -1,11 +1,14 @@
-name: App Container CI
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node while connecting to a mongodb docker instance
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js with docker db CI
 
 on:
   push:
     branches: [master]
   pull_request:
     branches: [master]
-  # Added in response to recent changes by GitHub on 1 March 2021 involving dependabot pull requests running with read only permissions which resulted in by default GitHub secrets are unable to be read.
+    # Added in response to recent changes by GitHub on 1 March 2021 involving dependabot pull requests running with read only permissions which resulted in by default GitHub secrets are unable to be read.
   # References:
   # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request_target (Announcement of changes to be made to dependabot pull requests)
   # https://securitylab.github.com/research/github-actions-preventing-pwn-requests/ (Recommended security mitigations by GitHub)
@@ -18,6 +21,10 @@ jobs:
     runs-on: ubuntu-latest
 
     timeout-minutes: 18
+
+    strategy:
+      matrix:
+        node-version: [14, 16]
 
     # If the Pull Request is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]". Otherwise, clone it normally.
     # References:
@@ -45,13 +52,24 @@ jobs:
       - name: docker-compose pull
         run: docker-compose pull
 
-      - name: docker layer caching
-        uses: satackey/action-docker-layer-caching@v0.0.11
-        continue-on-error: true
-
-      - name: Run test in container
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2.2.0
+        with:
+          node-version: ${{ matrix.node-version }}
+          check-latest: true
+          cache: npm
+      - name: npm ci
+        run: npm ci
+      - name: npm run build
+        run: npm run build --if-present
+      - name: Build and Start mongodb in docker instance
         shell: bash
+        run: docker-compose --file ./.github/ci/docker-compose-test-ci-db-only.yml up --build --detach
+      - name: Running test cases
+        run: npm run test-ci
         env:
+          PORT: ${{ secrets.PORT }}
+          TEST_MONGODB_URI: mongodb://root:password@localhost:27017/softwareRepositoryTest?authSource=admin
           FIREBASE_CLIENT_API_KEY: ${{ secrets.FIREBASE_CLIENT_API_KEY }}
           # Your firebase service account information
           FIREBASE_ADMIN_SA_TYPE: ${{ secrets.FIREBASE_ADMIN_SA_TYPE }}
@@ -64,4 +82,3 @@ jobs:
           FIREBASE_ADMIN_SA_TOKEN_URI: ${{ secrets.FIREBASE_ADMIN_SA_TOKEN_URI }}
           FIREBASE_ADMIN_SA_AUTH_PROVIDER_X509_CERT_URL: ${{ secrets.FIREBASE_ADMIN_SA_AUTH_PROVIDER_X509_CERT_URL}}
           FIREBASE_ADMIN_SA_CLIENT_X509_CERT_URL: ${{ secrets.FIREBASE_ADMIN_SA_CLIENT_X509_CERT_URL}}
-        run: docker-compose --file ./.github/ci/docker-compose-test-ci.yml up --build --exit-code-from app

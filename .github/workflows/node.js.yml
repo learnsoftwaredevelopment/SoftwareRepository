@@ -2,6 +2,12 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 # Addition of Cache Action
 
+## TODO: Add mitigations for GitHub Actions dependabot read only changes which resulted in GitHub Secrets cannot be read.
+## References:
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request_target (Announcement of changes to be made to dependabot pull requests)
+# https://securitylab.github.com/research/github-actions-preventing-pwn-requests/ (Recommended security mitigations by GitHub)
+# https://github.com/dependabot/dependabot-core/issues/3253#issuecomment-797125425 (Ongoing GitHub issues by users in response to the changes)
+
 name: Node.js CI
 
 on:
@@ -16,21 +22,16 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Cache artifacts such as dependencies and build outputs
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - uses: actions/checkout@v2.3.4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.1.2
+        uses: actions/setup-node@v2.2.0
         with:
           node-version: ${{ matrix.node-version }}
+          check-latest: true
+          cache: npm
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
