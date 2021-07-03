@@ -63,7 +63,7 @@ jobs:
         run: npm run build --if-present
       - name: Build and Start mongodb in docker instance
         shell: bash
-        run: docker-compose up --file ./.github/ci/docker-compose-test-ci-db-only.yml up --build --detach
+        run: docker-compose --file ./.github/ci/docker-compose-test-ci-db-only.yml up --build --detach
       - name: Running test cases
         run: npm run test-ci
         env:
