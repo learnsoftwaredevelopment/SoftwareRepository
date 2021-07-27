@@ -4,14 +4,13 @@ const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const config = require('./utils/config');
-
-const rootRouter = require('./routes/root');
-const usersRouter = require('./routes/api/users');
-
 const middleware = require('./utils/middleware');
 const logger = require('./utils/logger');
+const rootRouter = require('./routes/root');
+const usersRouter = require('./routes/api/users');
 const authRouter = require('./routes/api/auth');
 const softwareRouter = require('./routes/api/software');
+const searchRouter = require('./routes/api/search');
 
 const app = express();
 
@@ -61,6 +60,7 @@ app.use(rootRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/software', softwareRouter);
+app.use('/api/search', searchRouter);
 
 app.use(middleware.unknownEndPoint);
 app.use(middleware.errorHandler);
