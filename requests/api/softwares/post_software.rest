@@ -1,11 +1,13 @@
 POST http://localhost:3001/api/software/
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbXBsZSIsImlkIjoiNWY4ZGEzODcwODlmZmY0ZGIwNmJjMGFmIiwiaWF0IjoxNjAzODkzMzExfQ.ARy4EKDMzJqd4DcZyWXP5hygSQ9A2Bw1YfMQ-Nb03JU
+Authorization: bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImM1MzYyNGFmMTYwMGRhNzlmMzFmMDMxNGYyMDVkNGYzN2FkNmUyNDYiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiQWxpY2UiLCJiYWNrZW5kSWQiOiI2MGZlNDdkZjAzZDA3NDZjODA3YThhZDQiLCJ1c2VybmFtZSI6ImFsaWNlIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2F1dGgtaW1wbC1kZXYiLCJhdWQiOiJhdXRoLWltcGwtZGV2IiwiYXV0aF90aW1lIjoxNjI3NzExMDczLCJ1c2VyX2lkIjoiWnBJWWFMak9Oak1PV3R1bTM2WGFPSDVURVc4MiIsInN1YiI6IlpwSVlhTGpPTmpNT1d0dW0zNlhhT0g1VEVXODIiLCJpYXQiOjE2Mjc3MTEwNzMsImV4cCI6MTYyNzcxNDY3MywiZW1haWwiOiJsZWNhbWl2OTIwQGFjdGl2ZXNuaXBlci5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJsZWNhbWl2OTIwQGFjdGl2ZXNuaXBlci5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.Y8bdJfSJalhf1HDNQ1jEjpD4vyg-yV6vh1tSezd3F0jCEdr61AXC-exy6TFsj9jizqk8N9jeUXAniUndxBF80n9hCl_SAY4PFnORsgfkFeOH-KS91Z0Dhjr16KyCjENutMjpOVmutZKboIVZhOcjkE1RKLgeki4mdP6V7uY1wwKIrg39DMx-2pu_6TiAUf1grFOtxkIbu3BG48keqNzokCKPj45VZmS2cWjrvQgp1ND1CsJxgl-CaRtcQt_ziVUaZ4wJuNX5iAx8tdeYN3UvA-cNvL9d4mwy68mOK-oFbZRuC119A7zYb5HD2vo5j-7-prot6k3tmQKvtP6suMLEUw
 
 {
-    "name": "SampleSoftware8",
-    "description": "A sample software",
+    "name": "MyApp3",
+    "shortDescription": "MyApp3 Short descrption",
+    "description": "A sample software long description",
     "homePage": "http://example.com",
     "platform": "Windows",
-    "isActiveDevelopment": true
+    "isActiveDevelopment": true,
+    "pricing": "free"
 }

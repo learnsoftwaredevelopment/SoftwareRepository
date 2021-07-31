@@ -26,6 +26,12 @@ const softwareSchema = new mongoose.Schema(
       trim: true,
       default: '0.0.0',
     },
+    shortDescription: {
+      type: String,
+      trim: true,
+      maxlength: 100,
+      required: [true, 'Software short description is required'],
+    },
     description: {
       type: String,
       trim: true,
@@ -51,6 +57,12 @@ const softwareSchema = new mongoose.Schema(
     isActiveDevelopment: {
       type: Boolean,
       required: true,
+    },
+    pricing: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      required: [true, 'Software pricing is required'],
     },
     buildOn: {
       type: [
@@ -81,6 +93,27 @@ const softwareSchema = new mongoose.Schema(
         },
       ],
       default: [],
+    },
+    videoLink: {
+      type: String,
+      validate: [
+        (value) => {
+          if (value) {
+            return isURL(value, {
+              protocols: ['http', 'https'],
+              host_whitelist: ['youtube.com', 'vimeo.com'],
+            });
+          }
+          return true;
+        },
+        'A valid video url is required (Only youtube.com or vimeo.com are supported)',
+      ],
+      default: '',
+    },
+    twitterUsername: {
+      type: String,
+      trim: true,
+      lowercase: true,
     },
     query: {
       isEnabled: {
