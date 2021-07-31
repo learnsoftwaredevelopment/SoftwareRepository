@@ -114,6 +114,7 @@ const softwareSchema = new mongoose.Schema(
       type: String,
       trim: true,
       lowercase: true,
+      default: '',
     },
     query: {
       isEnabled: {
