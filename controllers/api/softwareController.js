@@ -24,6 +24,7 @@ const postSoftware = async (req, res) => {
   const softwareObject = {
     ...body,
     meta: {
+      ...body.meta,
       addedByUser: userId,
       updatedByUser: userId,
     },
