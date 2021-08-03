@@ -13,7 +13,9 @@ const searchSoftware = async (req, res) => {
   const queryResponse = await Software.find(query)
     .sort({ name: 'asc' })
     .skip(page * perPage)
-    .limit(perPage);
+    .limit(perPage)
+    .populate('meta.addedByUser', { username: 1, name: 1 })
+    .populate('meta.updatedByUser', { username: 1, name: 1 });
 
   const totalQueryResultCount = await Software.find(query).countDocuments();
 
