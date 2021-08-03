@@ -4,6 +4,13 @@ const softwareController = require('../../controllers/api/softwareController');
 
 softwareRouter.get('/', softwareController.getSoftware);
 
+softwareRouter.get('/added/recent', softwareController.getRecentAddedSoftware);
+
+softwareRouter.get(
+  '/updates/recent',
+  softwareController.getRecentUpdatedSoftware,
+);
+
 softwareRouter.post(
   '/',
   middleware.tokenValidation,
