@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { isURL } = require('validator');
 const uniqueValidator = require('mongoose-unique-validator');
+const { ALLOWED_VIDEO_HOST_WHITELIST } = require('../utils/config');
 
 const softwareSchema = new mongoose.Schema(
   {
@@ -101,7 +102,7 @@ const softwareSchema = new mongoose.Schema(
           if (value) {
             return isURL(value, {
               protocols: ['http', 'https'],
-              host_whitelist: ['youtube.com', 'vimeo.com'],
+              host_whitelist: ALLOWED_VIDEO_HOST_WHITELIST,
             });
           }
           return true;

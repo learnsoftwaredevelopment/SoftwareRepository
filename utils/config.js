@@ -11,6 +11,12 @@ const MONGODB_URI = NODE_ENVIRONMENT === 'test'
 
 const { FIREBASE_CLIENT_API_KEY } = process.env;
 const ALLOWED_USERNAME_REGEX = '^[a-z0-9_]+$';
+const ALLOWED_VIDEO_HOST_WHITELIST = [
+  'youtube.com',
+  'vimeo.com',
+  'www.youtube.com',
+  'www.vimeo.com',
+];
 
 module.exports = {
   PORT,
@@ -18,4 +24,5 @@ module.exports = {
   MONGODB_URI,
   ALLOWED_USERNAME_REGEX,
   FIREBASE_CLIENT_API_KEY,
+  ALLOWED_VIDEO_HOST_WHITELIST
 };
