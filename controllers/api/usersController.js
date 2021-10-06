@@ -4,13 +4,16 @@ const jwtUtils = require('../../utils/jwtUtils');
 const { checkUsernameValidity } = require('../../utils/api/usersUtils');
 
 const getUsers = async (req, res) => {
-  const users = await User.find({})
-    .populate('contributions.softwaresAdded', {
-      name: 1,
-    })
-    .populate('contributions.softwaresContributed', {
-      name: 1,
-    });
+  const users = await User.find({}).populate([
+    {
+      path: 'contributions.softwaresAdded',
+      select: 'name',
+    },
+    {
+      path: 'contributions.softwaresContributed',
+      select: 'name',
+    },
+  ]);
   return res.json(users);
 };
 

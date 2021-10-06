@@ -16,12 +16,7 @@ const app = express();
 
 // To establish connection to database
 mongoose
-  .connect(config.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
+  .connect(config.MONGODB_URI)
   .then(() => {
     logger.info('App successfully connected to MongoDB');
   })

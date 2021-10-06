@@ -4,15 +4,16 @@ const User = require('../../models/user');
 const databaseUtils = require('../../utils/databaseUtils');
 
 const getSoftware = async (req, res) => {
-  const softwares = await Software.find({})
-    .populate('meta.addedByUser', {
-      username: 1,
-      name: 1,
-    })
-    .populate('meta.updatedByUser', {
-      username: 1,
-      name: 1,
-    });
+  const softwares = await Software.find({}).populate([
+    {
+      path: 'meta.addedByUser',
+      select: 'username name',
+    },
+    {
+      path: 'meta.updatedByUser',
+      select: 'username name',
+    },
+  ]);
   res.status(200).json(softwares);
 };
 
@@ -46,16 +47,16 @@ const postSoftware = async (req, res) => {
 
   await user.save();
 
-  const saved = await savedSoftware
-    .populate('meta.addedByUser', {
-      username: 1,
-      name: 1,
-    })
-    .populate('meta.updatedByUser', {
-      username: 1,
-      name: 1,
-    })
-    .execPopulate();
+  const saved = await savedSoftware.populate([
+    {
+      path: 'meta.addedByUser',
+      select: 'username name',
+    },
+    {
+      path: 'meta.updatedByUser',
+      select: 'username name',
+    },
+  ]);
 
   return res.status(201).json(saved);
 };
@@ -94,10 +95,16 @@ const patchSoftwareById = async (req, res) => {
     await user.save();
   }
 
-  const updated = await updatedSoftware
-    .populate('meta.addedByUser', { username: 1, name: 1 })
-    .populate('meta.updatedByUser', { username: 1, name: 1 })
-    .execPopulate();
+  const updated = await updatedSoftware.populate([
+    {
+      path: 'meta.addedByUser',
+      select: 'username name',
+    },
+    {
+      path: 'meta.updatedByUser',
+      select: 'username name',
+    },
+  ]);
 
   return res.status(200).json(updated);
 };
@@ -111,10 +118,16 @@ const getSoftwareById = async (req, res) => {
     return res.status(404).end();
   }
 
-  const response = await software
-    .populate('meta.addedByUser', { username: 1, name: 1 })
-    .populate('meta.updatedByUser', { username: 1, name: 1 })
-    .execPopulate();
+  const response = await software.populate([
+    {
+      path: 'meta.addedByUser',
+      select: 'username name',
+    },
+    {
+      path: 'meta.updatedByUser',
+      select: 'username name',
+    },
+  ]);
 
   return res.status(200).json(response);
 };
