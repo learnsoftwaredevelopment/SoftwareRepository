@@ -21,7 +21,7 @@ const tokenValidation = async (req, res, next) => {
 
     if (!decodedToken) {
       return res.status(401).json({
-        error: 'Missing Token',
+        error: 'Missing/Invalid Token',
       });
     }
 

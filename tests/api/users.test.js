@@ -79,12 +79,28 @@ describe('Users Controller', () => {
    * are handled by firebase Authentication
    */
   describe('POST request to /api/users/', () => {
+    test('When missing Authorization token, return with status 401 with json Missing/Invalid Token error message, no change in the number of users in database', async () => {
+      const reqBody = {
+        username: 'Sample',
+      };
+
+      const initialUsersInDb = await databaseSetup.usersInDb();
+
+      const response = await api
+        .post('/api/users/')
+        .send(reqBody)
+        .expect(401)
+        .expect('Content-Type', /application\/json/);
+
+      const usersInDb = await databaseSetup.usersInDb();
+
+      expect(usersInDb).toHaveLength(initialUsersInDb.length);
+      expect(response.body.error).toEqual('Missing/Invalid Token');
+    });
+
     test('(Test one mongodb buildin validator) When username is missing, return json with error missing username message', async () => {
       const { email, password } = usersTestUtils.sampleUserCredential1;
-      const { idToken } = await firebaseUtils.loginFireBase(
-        email,
-        password,
-      );
+      const { idToken } = await firebaseUtils.loginFireBase(email, password);
 
       const reqBody = {};
 
@@ -105,40 +121,9 @@ describe('Users Controller', () => {
       });
     });
 
-    test('(Test one mongodb buildin validator) When username is less than 6 characters long , return json with error the username should be at least 6 characters long', async () => {
-      const { email, password } = usersTestUtils.sampleUserCredential1;
-      const { idToken } = await firebaseUtils.loginFireBase(
-        email,
-        password,
-      );
-
-      const reqBody = {
-        username: '123',
-      };
-
-      const initialUsersInDb = await databaseSetup.usersInDb();
-
-      const response = await api
-        .post('/api/users/')
-        .set('Authorization', `bearer ${idToken}`)
-        .send(reqBody)
-        .expect(400)
-        .expect('Content-Type', /application\/json/);
-
-      const usersInDb = await databaseSetup.usersInDb();
-
-      expect(usersInDb).toHaveLength(initialUsersInDb.length);
-      expect(response.body.error).toEqual({
-        username: 'The username should be at least 6 characters long',
-      });
-    });
-
     test('(Test custom validator) When username is containing unsupported characters like spaces, return json with error A valid username is required message', async () => {
       const { email, password } = usersTestUtils.sampleUserCredential1;
-      const { idToken } = await firebaseUtils.loginFireBase(
-        email,
-        password,
-      );
+      const { idToken } = await firebaseUtils.loginFireBase(email, password);
 
       const reqBody = {
         username: 'Sample username',
@@ -228,10 +213,7 @@ describe('Users Controller', () => {
 
   test('When request is valid, number of users in database increment by 1', async () => {
     const { email, password } = usersTestUtils.sampleUserCredential1;
-    const { idToken, uid } = await firebaseUtils.loginFireBase(
-      email,
-      password,
-    );
+    const { idToken, uid } = await firebaseUtils.loginFireBase(email, password);
 
     const reqBody = {
       username: 'Sample',
@@ -259,6 +241,92 @@ describe('Users Controller', () => {
     };
 
     expect(response.body).toMatchObject(expectedUser);
+  });
+});
+
+describe('POST request to /api/users/check', () => {
+  test('When username is not present in request, returns status 400 and json with error Missing username in request. message', async () => {
+    const reqBody = {};
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.error).toBe('Missing username in request.');
+  });
+
+  test('(Test edge cases for invalid username pattern) When username is blank, return status 400 and json with error Missing username in request. message', async () => {
+    const reqBody = {
+      username: '',
+    };
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.error).toBe('Missing username in request.');
+  });
+
+  test('(Test edge cases for invalid username pattern) When username only contains a whitespace, return status 400 and json with error Invalid username. message', async () => {
+    const reqBody = {
+      username: ' ',
+    };
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.error).toBe('Invalid username.');
+  });
+
+  test('(Test edge cases for invalid username pattern) When username contains invalid characters besides whitespace, return status 400 and json with error Invalid username. message', async () => {
+    const reqBody = {
+      username: 'Sample+',
+    };
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(400)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.error).toBe('Invalid username.');
+  });
+
+  test('(Test valid username) When request is valid and username is available, return status 200 and json with usernameStatus value set to Available message', async () => {
+    const reqBody = {
+      username: 'Sample3',
+    };
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.usernameStatus).toBe('Available');
+  });
+
+  test('(Test valid username) When request is valid and username is already in use, return status 200 and json with usernameStatus value set to Not Available message', async () => {
+    const reqBody = {
+      username: 'Sample',
+    };
+
+    await usersTestUtils.addUserToDb(usersTestUtils.sampleUserCredential1);
+
+    const response = await api
+      .post('/api/users/check')
+      .send(reqBody)
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    expect(response.body.usernameStatus).toBe('Not Available');
   });
 });
 

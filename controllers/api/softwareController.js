@@ -25,6 +25,7 @@ const postSoftware = async (req, res) => {
   const softwareObject = {
     ...body,
     meta: {
+      ...body.meta,
       addedByUser: userId,
       updatedByUser: userId,
     },
@@ -146,10 +147,36 @@ const deleteSoftwareById = async (req, res) => {
   return res.status(204).end();
 };
 
+const getRecentAddedSoftware = async (req, res) => {
+  const count = parseInt(req.query.count, 10) || 5;
+
+  const response = await Software.find({})
+    .sort({ createdAt: 'desc' })
+    .limit(count)
+    .populate('meta.addedByUser', { username: 1, name: 1 })
+    .populate('meta.updatedByUser', { username: 1, name: 1 });
+
+  return res.status(200).json(response);
+};
+
+const getRecentUpdatedSoftware = async (req, res) => {
+  const count = parseInt(req.query.count, 10) || 5;
+
+  const response = await Software.find({})
+    .sort({ updatedAt: 'desc' })
+    .limit(count)
+    .populate('meta.addedByUser', { username: 1, name: 1 })
+    .populate('meta.updatedByUser', { username: 1, name: 1 });
+
+  return res.status(200).json(response);
+};
+
 module.exports = {
   getSoftware,
   postSoftware,
   patchSoftwareById,
   getSoftwareById,
   deleteSoftwareById,
+  getRecentAddedSoftware,
+  getRecentUpdatedSoftware,
 };

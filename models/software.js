@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { isURL } = require('validator');
 const uniqueValidator = require('mongoose-unique-validator');
+const { ALLOWED_VIDEO_HOST_WHITELIST } = require('../utils/config');
 
 const softwareSchema = new mongoose.Schema(
   {
@@ -26,6 +27,12 @@ const softwareSchema = new mongoose.Schema(
       trim: true,
       default: '0.0.0',
     },
+    shortDescription: {
+      type: String,
+      trim: true,
+      maxlength: 100,
+      required: [true, 'Software short description is required'],
+    },
     description: {
       type: String,
       trim: true,
@@ -34,9 +41,10 @@ const softwareSchema = new mongoose.Schema(
     homePage: {
       type: String,
       validate: [
-        (value) => isURL(value, {
-          protocols: ['http', 'https'],
-        }),
+        (value) =>
+          isURL(value, {
+            protocols: ['http', 'https'],
+          }),
         'A valid url is required',
       ],
       required: [true, 'Software homepage url is required'],
@@ -51,6 +59,12 @@ const softwareSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    pricing: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      required: [true, 'Software pricing is required'],
+    },
     buildOn: {
       type: [
         {
@@ -64,8 +78,9 @@ const softwareSchema = new mongoose.Schema(
     developedBy: {
       type: [
         {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'User',
+          type: String,
+          trim: true,
+          lowercase: true,
         },
       ],
       default: [],
@@ -73,11 +88,34 @@ const softwareSchema = new mongoose.Schema(
     maintainedBy: {
       type: [
         {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'User',
+          type: String,
+          trim: true,
+          lowercase: true,
         },
       ],
       default: [],
+    },
+    videoLink: {
+      type: String,
+      validate: [
+        (value) => {
+          if (value) {
+            return isURL(value, {
+              protocols: ['http', 'https'],
+              host_whitelist: ALLOWED_VIDEO_HOST_WHITELIST,
+            });
+          }
+          return true;
+        },
+        'A valid video url is required (Only youtube.com or vimeo.com are supported)',
+      ],
+      default: '',
+    },
+    twitterUsername: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      default: '',
     },
     query: {
       isEnabled: {
@@ -87,9 +125,10 @@ const softwareSchema = new mongoose.Schema(
       updateUrl: {
         type: String,
         validate: [
-          (value) => isURL(value, {
-            protocols: ['http', 'https'],
-          }) || value === '',
+          (value) =>
+            isURL(value, {
+              protocols: ['http', 'https'],
+            }) || value === '',
           'A valid update url is required',
         ],
         default: '',
@@ -97,9 +136,10 @@ const softwareSchema = new mongoose.Schema(
       downloadUrl: {
         type: String,
         validate: [
-          (value) => isURL(value, {
-            protocols: ['http', 'https', 'ftp'],
-          }) || value === '',
+          (value) =>
+            isURL(value, {
+              protocols: ['http', 'https', 'ftp'],
+            }) || value === '',
           'A valid download url is required',
         ],
         default: '',

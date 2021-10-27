@@ -142,7 +142,7 @@ describe('Software Controller', () => {
 
 describe('Software Controller', () => {
   describe('POST request to /api/software/', () => {
-    test('When missing Authorisation token, return with status 401 with json Missing Token error message, no change in the number of softwares in database', async () => {
+    test('When missing Authorization token, return with status 401 with json Missing Token error message, no change in the number of softwares in database', async () => {
       const initialSoftwareInDb = await databaseSetup.softwareInDb();
 
       const softwareToAdd = {
@@ -167,7 +167,7 @@ describe('Software Controller', () => {
 
       const softwareInDb = await databaseSetup.softwareInDb();
       expect(softwareInDb).toHaveLength(initialSoftwareInDb.length);
-      expect(response.body.error).toBe('Missing Token');
+      expect(response.body.error).toBe('Missing/Invalid Token');
     });
 
     test('When invalid Authorisation token, return with status 401 with json Invalid Token error message, no change in the number of softwares in database', async () => {
@@ -201,10 +201,7 @@ describe('Software Controller', () => {
 
     test('When request is valid, number of softwares in database increments by 1', async () => {
       const { email, password } = usersTestUtils.sampleUserCredential1;
-      const { idToken } = await firebaseUtils.loginFireBase(
-        email,
-        password,
-      );
+      const { idToken } = await firebaseUtils.loginFireBase(email, password);
 
       const initialSoftwareInDb = await databaseSetup.softwareInDb();
 
