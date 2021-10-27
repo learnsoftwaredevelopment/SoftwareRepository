@@ -24,7 +24,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14]
+        node-version: ['lts/*']
+        check-latest: true
 
     # If the Pull Request is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]". Otherwise, clone it normally.
     # References:
