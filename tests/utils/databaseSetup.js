@@ -1,7 +1,8 @@
+const { getAuth } = require('firebase-admin/auth');
 const User = require('../../models/user');
 const Software = require('../../models/software');
 const firebaseTestUtils = require('../../utils/firebaseUtils');
-const firebaseAdmin = require('../../utils/firebaseConfig');
+const fireBaseAdminApp = require('../../utils/firebaseConfig');
 
 const resetDatabase = async () => {
   await User.deleteMany({});
@@ -23,12 +24,10 @@ const setBackendIdOfDefaultUser = async (userCredential, backendId) => {
   const { uid } = await firebaseTestUtils.loginFireBase(email, password);
 
   // Set custom claim with backend user id (different from firebase user id)
-  await firebaseAdmin
-    .auth()
-    .setCustomUserClaims(uid, {
-      backendId,
-      username: userCredential.username.toLowerCase(),
-    });
+  await getAuth(fireBaseAdminApp).setCustomUserClaims(uid, {
+    backendId,
+    username: userCredential.username.toLowerCase(),
+  });
 };
 
 module.exports = {

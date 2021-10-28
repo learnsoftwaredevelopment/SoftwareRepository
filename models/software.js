@@ -41,10 +41,9 @@ const softwareSchema = new mongoose.Schema(
     homePage: {
       type: String,
       validate: [
-        (value) =>
-          isURL(value, {
-            protocols: ['http', 'https'],
-          }),
+        (value) => isURL(value, {
+          protocols: ['http', 'https'],
+        }),
         'A valid url is required',
       ],
       required: [true, 'Software homepage url is required'],
@@ -125,10 +124,9 @@ const softwareSchema = new mongoose.Schema(
       updateUrl: {
         type: String,
         validate: [
-          (value) =>
-            isURL(value, {
-              protocols: ['http', 'https'],
-            }) || value === '',
+          (value) => isURL(value, {
+            protocols: ['http', 'https'],
+          }) || value === '',
           'A valid update url is required',
         ],
         default: '',
@@ -136,10 +134,9 @@ const softwareSchema = new mongoose.Schema(
       downloadUrl: {
         type: String,
         validate: [
-          (value) =>
-            isURL(value, {
-              protocols: ['http', 'https', 'ftp'],
-            }) || value === '',
+          (value) => isURL(value, {
+            protocols: ['http', 'https', 'ftp'],
+          }) || value === '',
           'A valid download url is required',
         ],
         default: '',
