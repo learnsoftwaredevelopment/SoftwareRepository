@@ -43,7 +43,7 @@
     "mongoose": "^6.0.12",
     "mongoose-unique-validator": "^3.0.0",
     "morgan": "^1.10.0",
-    "validator": "^13.6.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
