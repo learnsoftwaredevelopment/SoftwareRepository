@@ -23,7 +23,6 @@ jobs:
     strategy:
       matrix:
         node-version: ['lts/*']
-        check-latest: true
 
     steps:
       - uses: actions/checkout@v2.4.0
