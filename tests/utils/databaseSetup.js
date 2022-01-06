@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 const { getAuth } = require('firebase-admin/auth');
 const User = require('../../models/user');
 const Software = require('../../models/software');

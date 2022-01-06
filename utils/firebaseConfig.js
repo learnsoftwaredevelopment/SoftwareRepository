@@ -3,6 +3,7 @@
  */
 
 require('dotenv').config();
+// eslint-disable-next-line import/no-unresolved
 const { initializeApp, cert } = require('firebase-admin/app');
 
 const fireBaseAdminApp = initializeApp({
