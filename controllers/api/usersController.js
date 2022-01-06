@@ -1,7 +1,9 @@
+// eslint-disable-next-line import/no-unresolved
+const { getAuth } = require('firebase-admin/auth');
 const User = require('../../models/user');
-const firebaseAdmin = require('../../utils/firebaseConfig');
 const jwtUtils = require('../../utils/jwtUtils');
 const { checkUsernameValidity } = require('../../utils/api/usersUtils');
+const fireBaseAdminApp = require('../../utils/firebaseConfig');
 
 const getUsers = async (req, res) => {
   const users = await User.find({}).populate([
@@ -30,7 +32,7 @@ const postUsers = async (req, res) => {
     });
   }
 
-  const response = await firebaseAdmin.auth().getUser(decodedToken.uid);
+  const response = await getAuth(fireBaseAdminApp).getUser(decodedToken.uid);
 
   const userRecord = response.toJSON();
 
@@ -44,7 +46,7 @@ const postUsers = async (req, res) => {
   const savedUser = await user.save();
 
   // Set custom claim with backend user id (different from firebase user id)
-  await firebaseAdmin.auth().setCustomUserClaims(decodedToken.uid, {
+  await getAuth(fireBaseAdminApp).setCustomUserClaims(decodedToken.uid, {
     backendId: savedUser.id,
     username: savedUser.username,
   });

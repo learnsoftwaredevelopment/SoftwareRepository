@@ -1,4 +1,6 @@
-const firebaseAdmin = require('./firebaseConfig');
+// eslint-disable-next-line import/no-unresolved
+const { getAuth } = require('firebase-admin/auth');
+const { fireBaseAdminApp } = require('./firebaseConfig');
 const User = require('../models/user');
 
 const getReqAuthToken = (req) => {
@@ -27,9 +29,10 @@ const verifyAuthToken = async (authToken, checkDatabase) => {
     return null;
   }
 
-  const decodedAuthToken = await firebaseAdmin
-    .auth()
-    .verifyIdToken(authToken, true);
+  const decodedAuthToken = await getAuth(fireBaseAdminApp).verifyIdToken(
+    authToken,
+    true,
+  );
 
   // If the checkDatabase parameter is set to true,
   // a lookup will be made to check whether the firebase uid is in the database

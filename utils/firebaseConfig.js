@@ -3,10 +3,11 @@
  */
 
 require('dotenv').config();
-const firebaseAdmin = require('firebase-admin');
+// eslint-disable-next-line import/no-unresolved
+const { initializeApp, cert } = require('firebase-admin/app');
 
-firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert({
+const fireBaseAdminApp = initializeApp({
+  credential: cert({
     type: process.env.FIREBASE_ADMIN_SA_TYPE,
     project_id: process.env.FIREBASE_ADMIN_SA_PROJECT_ID,
     private_key_id: process.env.FIREBASE_ADMIN_SA_PRIVATE_KEY_ID,
@@ -27,4 +28,4 @@ firebaseAdmin.initializeApp({
   databaseURL: 'https://auth-impl-dev.firebaseio.com',
 });
 
-module.exports = firebaseAdmin;
+module.exports = fireBaseAdminApp;

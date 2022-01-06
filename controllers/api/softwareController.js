@@ -42,8 +42,8 @@ const postSoftware = async (req, res) => {
   user.contributions.softwaresAdded = user.contributions.softwaresAdded.concat(
     savedSoftware._id,
   );
-  user.contributions.softwaresContributed =
-    user.contributions.softwaresContributed.concat(savedSoftware._id);
+  // eslint-disable-next-line max-len
+  user.contributions.softwaresContributed = user.contributions.softwaresContributed.concat(savedSoftware._id);
 
   await user.save();
 
@@ -90,8 +90,8 @@ const patchSoftwareById = async (req, res) => {
   const user = await User.findById(userId);
 
   if (!user.contributions.softwaresContributed.includes(id)) {
-    user.contributions.softwaresContributed =
-      user.contributions.softwaresContributed.concat(updatedSoftware._id);
+    // eslint-disable-next-line max-len
+    user.contributions.softwaresContributed = user.contributions.softwaresContributed.concat(updatedSoftware._id);
     await user.save();
   }
 
