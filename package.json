@@ -37,23 +37,20 @@
     "cross-env": "^7.0.3",
     "dot-object": "^2.1.4",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1",
+    "express": "^4.17.2",
     "express-async-errors": "^3.1.1",
     "firebase-admin": "^10.0.0",
-    "mongoose": "^6.0.12",
-    "mongoose-unique-validator": "^3.0.0",
+    "mongoose": "^6.1.4",
+    "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.10.0",
-    "validator": "^13.6.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
-    "eslint": "^7.2.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.2",
     "jest": "^27.3.1",
-    "nodemon": "^2.0.14",
+    "nodemon": "^2.0.15",
     "supertest": "^6.1.6"
-  },
-  "jest": {
-    "testEnvironment": "node"
   }
 }

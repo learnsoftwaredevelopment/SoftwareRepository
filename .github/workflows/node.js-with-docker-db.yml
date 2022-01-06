@@ -25,7 +25,6 @@ jobs:
     strategy:
       matrix:
         node-version: ['lts/*']
-        check-latest: true
 
     # If the Pull Request is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]". Otherwise, clone it normally.
     # References:
@@ -39,11 +38,11 @@ jobs:
     steps:
       - name: checkout
         if: ${{ github.event_name != 'pull_request_target' }}
-        uses: actions/checkout@v2.3.5
+        uses: actions/checkout@v2.4.0
 
       - name: checkout Pull Request (dependabot[bot] only)
         if: ${{ github.event_name == 'pull_request_target' }}
-        uses: actions/checkout@v2.3.5
+        uses: actions/checkout@v2.4.0
         with:
           # Without ref with pull_request_target, it does not actually build the PR, instead it builds the latest changeset from the target repository which is not the intended behaviour. (Reference: https://securitylab.github.com/research/github-actions-preventing-pwn-requests/ [Last example])
           ref: ${{ github.event.pull_request.head.sha }}
@@ -54,7 +53,7 @@ jobs:
         run: docker-compose pull
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@v2.5.1
         with:
           node-version: ${{ matrix.node-version }}
           check-latest: true

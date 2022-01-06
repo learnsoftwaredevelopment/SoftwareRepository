@@ -12,7 +12,7 @@ WORKDIR /app
 COPY package.json .
 
 # Run npm install to install the dependencies specified in package.json
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # After the dependencies are installed, I copy over the source code of the web application to the current working directory.
 # Note: In this case, I add .dockerignore file (similar to .gitignore) and add node_modules to the .dockerignore file so that my local node_modules directory will not be copied to the container's working directory.
