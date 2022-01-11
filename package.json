@@ -52,6 +52,6 @@
     "jest": "^27.3.1",
     "jest-node-exports-resolver": "^1.1.2",
     "nodemon": "^2.0.15",
-    "supertest": "^6.1.6"
+    "supertest": "^6.2.0"
   }
 }
