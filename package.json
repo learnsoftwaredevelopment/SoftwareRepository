@@ -32,11 +32,11 @@
   },
   "homepage": "https://github.com/learnsoftwaredevelopment/SoftwareRepository#readme",
   "dependencies": {
-    "axios": "^0.24.0",
+    "axios": "^0.25.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dot-object": "^2.1.4",
-    "dotenv": "^14.0.0",
+    "dotenv": "^14.2.0",
     "express": "^4.17.2",
     "express-async-errors": "^3.1.1",
     "firebase-admin": "^10.0.1",
