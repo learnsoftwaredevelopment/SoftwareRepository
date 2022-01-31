@@ -50,7 +50,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.2",
     "jest": "^27.3.1",
-    "jest-node-exports-resolver": "^1.1.4",
+    "jest-node-exports-resolver": "^1.1.5",
     "nodemon": "^2.0.15",
     "supertest": "^6.2.2"
   }
